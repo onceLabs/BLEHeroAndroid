@@ -5,10 +5,13 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 
-class Theme: BaseObservable() {
+object GlobalTheme: BaseObservable() {
     //Theme object all colors are defined here
 
     @get:Bindable
-    var color = Color.RED
-
+    var theme: Theme = SystemTheme.Dark
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.theme)
+        }
 }
