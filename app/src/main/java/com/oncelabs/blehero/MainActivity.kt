@@ -2,34 +2,46 @@ package com.oncelabs.blehero
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.DataBindingUtil.setContentView
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.oncelabs.blehero.databinding.ActivityMainBinding
-import com.oncelabs.blehero.ui.themes.GlobalTheme
-import com.oncelabs.blehero.ui.themes.SystemTheme
-import com.oncelabs.blehero.ui.themes.Theme
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        setContentView(R.layout.activity_main)
 
-        binding.globalTheme = GlobalTheme
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        button.setOnClickListener {
-            println("Ive been pressed")
-            if(GlobalTheme.theme == SystemTheme.Light){
-                GlobalTheme.theme = SystemTheme.Dark
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.navigation_discover, R.id.navigation_logs, R.id.navigation_settings))
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+
+        nav_view.setOnNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.navigation_discover-> {
+                    navController.navigate(R.id.discoverFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_logs -> {
+                    navController.navigate(R.id.logFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.navigation_settings -> {
+                    navController.navigate(R.id.settingsFragment)
+                    return@setOnNavigationItemSelectedListener true
+                }
             }
-            else{
-                GlobalTheme.theme = SystemTheme.Light
-            }
-
+            false
         }
+
     }
 }

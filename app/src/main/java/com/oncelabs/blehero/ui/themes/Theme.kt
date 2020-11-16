@@ -11,4 +11,8 @@ class Theme: BaseObservable() {
     @get:Bindable
     var color = Color.RED
 
+    @get:Bindable
+    var navBarColor = Color.GRAY
+
+
 }
