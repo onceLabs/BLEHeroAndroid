@@ -8,12 +8,13 @@ object SystemTheme {
     val Dark = Theme()
     val Light = Theme()
 
-    //Dark theme
-    init{
-        Dark.color = Color.RED
-        Light.color = Color.BLUE
-    }
 
-    //Setup Light theme
+    init {
+        //Setup Dark theme
+//        Dark.color = Color.RED
+
+        //Setup Light theme
+//        Light.color = Color.BLUE
+    }
 
 }
