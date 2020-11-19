@@ -1,8 +1,11 @@
 package com.oncelabs.blehero.ui.adapters.holders
 
-import android.util.DisplayMetrics
-import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.jjoe64.graphview.GraphView
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
+import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
 import com.oncelabs.blehero.model.Device
 
@@ -12,7 +15,7 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         binding.device = device
 
         //This value needs to be calculated in realtime based on screen width
-        val translationDistance = 820f
+        val translationDistance = 800f
 
         binding.actionInfoButton.setOnClickListener {
             if(binding.infoContainer.translationX == 0f){
@@ -27,6 +30,46 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
                 binding.actionInfoButton.text = "Actions"
             }
         }
+
+        val graph = binding.graphView
+
+        //Setup UI
+        val renderer = graph.gridLabelRenderer
+        renderer.gridColor = ContextCompat.getColor(binding.root.context, R.color.foregroundLight)
+        renderer.isHorizontalLabelsVisible = false
+        renderer.verticalLabelsColor = ContextCompat.getColor(binding.root.context, R.color.primaryText)
+        renderer.textSize = 24f
+
+        graph.viewport.setMinX(0.toDouble());
+        graph.viewport.setMaxX(10.toDouble());
+        graph.viewport.setMinY((-100).toDouble());
+        graph.viewport.setMaxY(0.toDouble());
+
+        graph.viewport.isYAxisBoundsManual = true
+        graph.viewport.isXAxisBoundsManual = true;
+
+
+        val series: LineGraphSeries<DataPoint> = LineGraphSeries(
+            arrayOf(
+                DataPoint(0.toDouble(), (-100).toDouble()),
+                DataPoint(1.toDouble(), (-85).toDouble()),
+                DataPoint(2.toDouble(), (-80).toDouble()),
+                DataPoint(3.toDouble(), (-70).toDouble()),
+                DataPoint(4.toDouble(), (-75).toDouble()),
+                DataPoint(5.toDouble(), (-70).toDouble()),
+                DataPoint(6.toDouble(), (-65).toDouble()),
+                DataPoint(7.toDouble(), (-70).toDouble()),
+                DataPoint(8.toDouble(), (-72).toDouble()),
+                DataPoint(9.toDouble(), (-73).toDouble()),
+                DataPoint(10.toDouble(), (-74).toDouble())
+            )
+        )
+
+        //series.setAnimated(true)
+        series.isDrawBackground = true
+        series.backgroundColor = ContextCompat.getColor(binding.root.context, R.color.graphBackgroundTranslucent)
+        series.color = ContextCompat.getColor(binding.root.context, R.color.colorAccent)
+        graph.addSeries(series)
 
     }
 }

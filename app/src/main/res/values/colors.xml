@@ -5,4 +5,9 @@
     <color name="colorAccent">#00B8F7</color>
 
     <color name="foregroundDark">#30000000</color>
+    <color name="foregroundLight">#30ffffff</color>
+
+    <color name="primaryText">#ffffff</color>
+
+    <color name="graphBackgroundTranslucent">#3f00B8F7</color>
 </resources>

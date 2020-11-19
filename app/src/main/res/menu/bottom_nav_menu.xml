@@ -2,13 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_discover"
-        android:title="@string/title_discover" />
+        android:title="@string/title_discover"
+        android:icon="@drawable/ic_telescope"/>
 
     <item
         android:id="@+id/navigation_logs"
-        android:title="@string/title_logs" />
+        android:title="@string/title_logs"
+        android:icon="@drawable/ic_helmet"/>
 
     <item
         android:id="@+id/navigation_settings"
-        android:title="@string/title_settings" />
+        android:title="@string/title_settings"
+        android:icon="@drawable/ic_rover"/>
 </menu>
