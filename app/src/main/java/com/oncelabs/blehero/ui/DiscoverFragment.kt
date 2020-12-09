@@ -42,6 +42,20 @@ class DiscoverFragment : Fragment(){
         adapter?.addDevice(Device())
         adapter?.addDevice(Device())
         adapter?.addDevice(Device())
+
+        binding.discoveredDeviceSearch.setOnClickListener {
+            print("Clicked search button")
+            if(binding.deviceSearchContainer.visibility == View.GONE){
+                binding.deviceSearchContainer.visibility = View.VISIBLE
+            }
+            else{
+                binding.deviceSearchContainer.visibility = View.GONE
+            }
+        }
+
+        binding.cancelSearchButton.setOnClickListener {
+            binding.deviceSearchContainer.visibility = View.GONE
+        }
     }
 
     override fun onResume() {

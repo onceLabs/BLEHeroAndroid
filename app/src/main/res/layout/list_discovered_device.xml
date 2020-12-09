@@ -32,10 +32,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
-                android:layout_weight="55"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
                 android:paddingLeft="8dp"
@@ -48,6 +47,7 @@
                     android:layout_marginTop="8dp"
                     android:backgroundTint="@color/colorAccent"
                     android:text="Connect"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
                 <Button
@@ -56,7 +56,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Add Favorite"
+                    android:textAllCaps="false"
                     android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
                     app:strokeColor="@color/colorAccent"
                     app:strokeWidth="1dp" />
 
@@ -66,6 +68,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Filter all others"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent"
                     app:strokeColor="@color/colorAccent"
                     app:strokeWidth="1dp" />
@@ -76,6 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Ignore this device"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent"
                     app:strokeColor="@color/colorAccent"
                     app:strokeWidth="1dp" />
@@ -86,6 +92,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Locator Mode"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
                     android:textColor="@color/colorAccent"
                     app:strokeColor="@color/colorAccent"
                     app:strokeWidth="1dp" />
@@ -154,6 +162,27 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/foregroundDark">
+
+                <TextView
+                    android:id="@+id/mac_address_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:maxLines="1"
+                    android:text="MAC Address: Not available"
+                    android:textColor="@android:color/white" />
+
+            </ScrollView>
 
             <ScrollView
                 android:layout_width="match_parent"

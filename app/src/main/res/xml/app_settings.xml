@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory>
+        <Preference
+            app:key="help"
+            app:title="Help"/>
+
+        <Preference
+            app:key="send_email"
+            app:title="Send us an email"/>
+
+        <Preference
+            app:key="report_issue"
+            app:title="Report an Issue"
+            app:summary="Github/Issues"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Scanning">
+
+        <Preference
+            app:key="data_timeout"
+            app:title="Data Timeout"
+            app:summary="- Minutes"/>
+
+        <Preference
+            app:key="favorites"
+            app:title="Favorites"
+            app:summary="- Devices"/>
+
+        <Preference
+            app:key="ignored_devices"
+            app:title="Ignored Devices"
+            app:summary="- Devices"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Logging">
+
+        <SwitchPreferenceCompat
+            app:key="advertisement_data"
+            app:title="Advertisement Data" />
+
+        <SwitchPreferenceCompat
+            app:key="connection_events"
+            app:title="Connection Events" />
+
+        <SwitchPreferenceCompat
+            app:key="disconnection_events"
+            app:title="Disconnection Events" />
+
+        <SwitchPreferenceCompat
+            app:key="read_write_events"
+            app:title="Read/Write Events" />
+
+        <SwitchPreferenceCompat
+            app:key="notification_indication_events"
+            app:title="Notification/Indication Events" />
+
+        <SwitchPreferenceCompat
+            app:key="gatt_discovery_events"
+            app:title="GATT Discovery Events" />
+
+        <SwitchPreferenceCompat
+            app:key="rssi_updates"
+            app:title="RSSI Updates" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Theme">
+
+        <ListPreference
+            android:key="system_theme"
+            android:title="System Theme"
+            android:defaultValue="0"
+            android:entries="@array/theme_list"
+            android:entryValues="@array/theme_list_values" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="About">
+
+        <SwitchPreferenceCompat
+            app:key="notifications"
+            app:title="Enable message notifications" />
+
+        <Preference
+            app:key="feedback"
+            app:summary="Report technical issues or suggest new features"
+            app:title="Send feedback" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

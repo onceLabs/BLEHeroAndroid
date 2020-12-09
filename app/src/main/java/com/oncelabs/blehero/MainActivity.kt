@@ -1,5 +1,8 @@
 package com.oncelabs.blehero
 
+import android.content.pm.ActivityInfo
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -16,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Lock screen rotation to portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -23,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         navView.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
         navView.itemTextAppearanceActive = R.style.navBarTextActive
         navView.itemTextAppearanceInactive = R.style.navBarTextInactive
+        navView.itemIconSize = 70
+        navView.itemIconTintList = ColorStateList.valueOf(Color.WHITE)
         navView.elevation = 3f
 
         nav_view.setOnNavigationItemSelectedListener {

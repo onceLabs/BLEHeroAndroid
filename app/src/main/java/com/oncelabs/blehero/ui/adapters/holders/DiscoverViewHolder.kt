@@ -1,8 +1,9 @@
 package com.oncelabs.blehero.ui.adapters.holders
 
+import android.content.res.Resources
+import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.jjoe64.graphview.GraphView
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
 import com.oncelabs.blehero.R
@@ -14,8 +15,14 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
     fun bind(device: Device){
         binding.device = device
 
-        //This value needs to be calculated in realtime based on screen width
-        val translationDistance = 800f
+        //This value is static and set based on view size
+        val actionsWidth = 210f
+        val r: Resources = Resources.getSystem()
+        val translationDistance = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            actionsWidth,
+            r.displayMetrics
+        )
 
         binding.actionInfoButton.setOnClickListener {
             if(binding.infoContainer.translationX == 0f){
