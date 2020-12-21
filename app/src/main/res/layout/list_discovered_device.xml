@@ -9,8 +9,8 @@
             type="com.oncelabs.blehero.ui.themes.GlobalTheme" />
 
         <variable
-            name="device"
-            type="com.oncelabs.blehero.model.Device" />
+            name="peripheral"
+            type="com.oncelabs.onceble.core.peripheral.OBPeripheral" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -141,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
-                        android:text="Name: Unnamed"
+                        android:text="Name: null"
                         android:textColor="@color/colorAccent"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -179,7 +179,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="2dp"
                     android:maxLines="1"
-                    android:text="MAC Address: Not available"
+                    android:text="Mac Address: Not Available"
                     android:textColor="@android:color/white" />
 
             </ScrollView>

@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oncelabs.blehero.databinding.FragmentDiscoverBinding
 import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.model.Device
+import com.oncelabs.blehero.model.DeviceManager
 import com.oncelabs.blehero.ui.adapters.DiscoverAdapter
 
 class DiscoverFragment : Fragment(){
@@ -21,7 +23,6 @@ class DiscoverFragment : Fragment(){
 
     lateinit var binding: FragmentDiscoverBinding
     private var adapter : DiscoverAdapter? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +39,11 @@ class DiscoverFragment : Fragment(){
     }
 
     private fun bindObservers(){
-        adapter?.addDevice(Device())
-        adapter?.addDevice(Device())
-        adapter?.addDevice(Device())
-        adapter?.addDevice(Device())
+        DeviceManager.discoveredDevices.observe(viewLifecycleOwner, Observer {obPeripheralList ->
+            obPeripheralList.forEach{
+                adapter?.addDevice(it)
+            }
+        })
 
         binding.discoveredDeviceSearch.setOnClickListener {
             print("Clicked search button")
