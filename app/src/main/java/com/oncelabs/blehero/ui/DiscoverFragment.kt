@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oncelabs.blehero.databinding.FragmentDiscoverBinding
 import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.model.Device
 import com.oncelabs.blehero.model.DeviceManager
 import com.oncelabs.blehero.ui.adapters.DiscoverAdapter
+import kotlinx.android.synthetic.main.fragment_discover.*
+import kotlinx.android.synthetic.main.list_discovered_device.*
 
 class DiscoverFragment : Fragment(){
 
@@ -40,9 +43,8 @@ class DiscoverFragment : Fragment(){
 
     private fun bindObservers(){
         DeviceManager.discoveredDevices.observe(viewLifecycleOwner, Observer {obPeripheralList ->
-            obPeripheralList.forEach{
-                adapter?.addDevice(it)
-            }
+            adapter?.updateDevices(obPeripheralList)
+            discovered_devices_number.text = "${obPeripheralList.size} Devices"
         })
 
         binding.discoveredDeviceSearch.setOnClickListener {
@@ -57,6 +59,10 @@ class DiscoverFragment : Fragment(){
 
         binding.cancelSearchButton.setOnClickListener {
             binding.deviceSearchContainer.visibility = View.GONE
+        }
+
+        binding.filterSortButton.setOnClickListener {
+            showFilterSortDialog()
         }
     }
 
@@ -74,6 +80,13 @@ class DiscoverFragment : Fragment(){
 
         } else {
             //adapter?.updateCallback(this)
+        }
+    }
+
+    private fun showFilterSortDialog() {
+        val filterSortDialog = DiscoveryFilterFragment();
+        childFragmentManager.let{
+            filterSortDialog.show(it, "filterSortDialog")
         }
     }
 }

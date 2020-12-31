@@ -1,22 +1,49 @@
 package com.oncelabs.blehero.ui.adapters.holders
 
+import android.annotation.SuppressLint
 import android.content.res.Resources
+import android.graphics.Color
 import android.util.TypedValue
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.util.forEach
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.AxisBase
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.Utils
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
 import com.oncelabs.onceble.core.peripheral.OBAdvertisementData
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
+import java.text.DecimalFormat
 
 
 class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerView.ViewHolder(binding.root){
+
+    private lateinit var graph: LineChart
+    private lateinit var _obPeripheral: OBPeripheral
+
+    private val graphDataPoints = 15
+
+    fun dispose(){
+        binding.peripheral = null
+        _obPeripheral.latestAdvData.removeObservers(binding.root.context as LifecycleOwner)
+        _obPeripheral.rssiHistorical.removeObservers(binding.root.context as LifecycleOwner)
+    }
+
     fun bind(obPeripheral: OBPeripheral){
-        binding.peripheral = obPeripheral
+        _obPeripheral = obPeripheral
+        binding.peripheral = _obPeripheral
 
         //This value is static and set based on view size
         val actionsWidth = 210f
@@ -41,58 +68,93 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
             }
         }
 
-        obPeripheral.latestAdvData.observe(binding.root.context as LifecycleOwner, Observer {
-            updateUI(it)
-        })
-
-        val graph = binding.graphView
-
-        //Setup UI
-        val renderer = graph.gridLabelRenderer
-        renderer.gridColor = ContextCompat.getColor(binding.root.context, R.color.foregroundLight)
-        renderer.isHorizontalLabelsVisible = false
-        renderer.verticalLabelsColor = ContextCompat.getColor(binding.root.context, R.color.primaryText)
-        renderer.textSize = 24f
-
-        graph.viewport.setMinX(0.toDouble());
-        graph.viewport.setMaxX(10.toDouble());
-        graph.viewport.setMinY((-100).toDouble());
-        graph.viewport.setMaxY(0.toDouble());
-
-        graph.viewport.isYAxisBoundsManual = true
-        graph.viewport.isXAxisBoundsManual = true
-
-
-        val series: LineGraphSeries<DataPoint> = LineGraphSeries(
-            arrayOf(
-                DataPoint(0.toDouble(), (-100).toDouble()),
-                DataPoint(1.toDouble(), (-85).toDouble()),
-                DataPoint(2.toDouble(), (-80).toDouble()),
-                DataPoint(3.toDouble(), (-70).toDouble()),
-                DataPoint(4.toDouble(), (-75).toDouble()),
-                DataPoint(5.toDouble(), (-70).toDouble()),
-                DataPoint(6.toDouble(), (-65).toDouble()),
-                DataPoint(7.toDouble(), (-70).toDouble()),
-                DataPoint(8.toDouble(), (-72).toDouble()),
-                DataPoint(9.toDouble(), (-73).toDouble()),
-                DataPoint(10.toDouble(), (-74).toDouble())
-            )
-        )
-
-        //series.setAnimated(true)
-        series.isDrawBackground = true
-        series.backgroundColor = ContextCompat.getColor(binding.root.context, R.color.graphBackgroundTranslucent)
-        series.color = ContextCompat.getColor(binding.root.context, R.color.colorAccent)
-        graph.addSeries(series)
+        initializeRssiGraph()
+        initializeBindings()
     }
 
+    fun initializeBindings(){
+        _obPeripheral.latestAdvData.observe(binding.root.context as LifecycleOwner, Observer {_advData ->
+            updateUI(_advData)
+        })
+
+        _obPeripheral.rssiHistorical.observe(binding.root.context as LifecycleOwner, Observer {
+            val list = if (it.size >= graphDataPoints) it.subList(it.size-graphDataPoints, it.size) else it
+            updateRssiGraph(list)
+//            println(it.last())
+        })
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun updateUI(obAdvertisementData: OBAdvertisementData){
         binding.deviceName.text = obAdvertisementData.name.toString()
         binding.macAddressLabel.text = obAdvertisementData.address.toString()
         binding.connectableLabel.text = "Connectable: ${if (obAdvertisementData.connectable == true) "Yes" else "No"}"
     }
 
-    private fun updateRssiGraph(){
 
+    private fun initializeRssiGraph(){
+        graph = binding.graphView
+        graph.setTouchEnabled(false)
+        graph.isScaleYEnabled = false
+        graph.legend.isEnabled = false
+        graph.description.isEnabled = false
+        graph.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        graph.xAxis.setDrawLabels(false)
+        graph.xAxis.axisLineColor = Color.TRANSPARENT
+        graph.axisRight.isEnabled = false
+        graph.axisLeft.axisLineColor = Color.TRANSPARENT
+        graph.xAxis.granularity = 1f
+
+        graph.axisLeft.axisMaximum = -25f
+        graph.axisLeft.axisMinimum = -100f
+        graph.xAxis.axisMaximum = (graphDataPoints-1).toFloat()
+        graph.xAxis.axisMinimum = 0f
     }
+
+    var rssiData: LineDataSet? = null
+
+    private fun updateRssiGraph(rssiValues: List<Int>){
+
+        val graphValues: MutableList<Entry> = mutableListOf()
+
+        rssiValues.indices.forEach{
+            graphValues.add(it, Entry(it.toFloat(), rssiValues[it].toFloat()))
+        }
+
+        if(rssiData == null){
+            rssiData = LineDataSet(graphValues, "RSSI")
+
+            rssiData?.lineWidth = 2.5f
+            rssiData?.setDrawIcons(false)
+            rssiData?.setDrawCircles(false)
+            rssiData?.setDrawValues(false)
+            rssiData?.isHighlightEnabled = false
+            rssiData?.mode = LineDataSet.Mode.CUBIC_BEZIER
+        }
+        else{
+            rssiData?.values = graphValues
+        }
+
+        rssiData?.let{
+            val dataSets: ArrayList<ILineDataSet> = ArrayList()
+            dataSets.add(it)
+            val data = LineData(dataSets)
+            graph.data = data
+
+            graph.invalidate()
+
+            graph.data.notifyDataChanged()
+            graph.notifyDataSetChanged()
+        }
+    }
+
+//    internal class ChartEntry<K, V>(override val key: K, override var value: V) :
+//        MutableMap.MutableEntry<K, V> {
+//
+//        override fun setValue(value: V): V {
+//            val old = this.value
+//            this.value = value
+//            return old
+//        }
+//    }
 }

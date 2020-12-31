@@ -11,6 +11,7 @@
 <!--        <item name="android:background">@color/colorPrimaryDark</item>-->
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="navBarTextActive">
@@ -21,6 +22,27 @@
     <style name="navBarTextInactive">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_dialog_background</item>
+    </style>
+
+    <style name="settingsTableTitle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="settingsTableContent">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

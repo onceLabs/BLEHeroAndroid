@@ -66,9 +66,10 @@ dependencies {
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha02"
 
-    implementation 'com.github.onceLabs:onceBLEAndroid:v1.1.0'
+    implementation 'com.github.onceLabs:onceBLEAndroid:v1.1.3'
 
-    implementation 'com.jjoe64:graphview:4.2.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     implementation 'androidx.preference:preference:1.1.1'
 
 }

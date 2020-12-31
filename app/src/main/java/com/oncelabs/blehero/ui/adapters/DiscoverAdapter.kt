@@ -27,13 +27,25 @@ class DiscoverAdapter() : RecyclerView.Adapter<DiscoverViewHolder>(){
         )))
     }
 
+    override fun onViewDetachedFromWindow(holder: DiscoverViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.dispose()
+    }
+
+    override fun onViewAttachedToWindow(holder: DiscoverViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        holder.initializeBindings()
+//        println("onViewAttached ${holder.binding.deviceName}")
+    }
+
     override fun onBindViewHolder(holder: DiscoverViewHolder, position: Int) {
+//        holder.setIsRecyclable(false)
         holder.bind(devices[position])
-        println("Binding viewholder")
+//        println("Binding viewholder")
     }
 
     override fun getItemCount(): Int {
-        Log.i("DiscoverAdapter", devices.size.toString())
+//        Log.i("DiscoverAdapter", devices.size.toString())
         return devices.size
     }
 
@@ -43,5 +55,13 @@ class DiscoverAdapter() : RecyclerView.Adapter<DiscoverViewHolder>(){
             devices.add(0, obPeripheral)
             notifyDataSetChanged()
         }
+    }
+
+    fun updateDevices(devicesList: List<OBPeripheral>){
+        devices.clear()
+        devicesList.forEach{
+            devices.add(it)
+        }
+        notifyDataSetChanged()
     }
 }
