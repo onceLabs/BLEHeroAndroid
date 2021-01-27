@@ -1,5 +1,6 @@
 package com.oncelabs.blehero.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -62,7 +63,8 @@ class DiscoverFragment : Fragment(){
         }
 
         binding.filterSortButton.setOnClickListener {
-            showFilterSortDialog()
+//            showFilterSortDialog()
+            showGattActivity()
         }
     }
 
@@ -88,5 +90,10 @@ class DiscoverFragment : Fragment(){
         childFragmentManager.let{
             filterSortDialog.show(it, "filterSortDialog")
         }
+    }
+
+    private fun showGattActivity(){
+        val intent = Intent(context, GattProfileActivity::class.java)
+        startActivity(intent)
     }
 }
