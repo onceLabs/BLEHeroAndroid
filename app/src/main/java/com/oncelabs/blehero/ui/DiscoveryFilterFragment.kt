@@ -32,34 +32,6 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
         return binding.root
     }
 
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        return super.onCreateDialog(savedInstanceState)
-//
-//        val bottomSheetView: View? = view.rootView.findViewById(com.google.android.material.R.id.design_bottom_sheet)
-//
-//        bottomSheetView?.let{
-//            val bottomSheetBehaviour = BottomSheetBehavior.from(it)
-//            bottomSheetBehaviour.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-//            bottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
-//        }
-//
-//    }
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-//        bottomSheetDialog.setOnShowListener { dialog: DialogInterface ->
-//            val dialogc = dialog as BottomSheetDialog
-//            // When using AndroidX the resource can be found at com.google.android.material.R.id.design_bottom_sheet
-//            val bottomSheet =
-//                dialogc.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-//            val bottomSheetBehavior: BottomSheetBehavior<*> =
-//                BottomSheetBehavior.from<FrameLayout?>(bottomSheet!!)
-//            bottomSheetBehavior.peekHeight = Resources.getSystem().displayMetrics.heightPixels
-//            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-//        }
-//        return bottomSheetDialog
-//    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
         dialog.setOnShowListener {
