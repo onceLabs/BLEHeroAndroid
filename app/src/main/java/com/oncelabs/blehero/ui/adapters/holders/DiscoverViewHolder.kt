@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Color
 import android.util.TypedValue
+import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.util.forEach
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.Utils
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
+import com.oncelabs.onceble.core.peripheral.ConnectionState
 import com.oncelabs.onceble.core.peripheral.OBAdvertisementData
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
 import java.text.DecimalFormat
@@ -70,6 +72,8 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
 
         initializeRssiGraph()
         initializeBindings()
+
+        bindActionButtons()
     }
 
     fun initializeBindings(){
@@ -91,6 +95,72 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         binding.connectableLabel.text = "Connectable: ${if (obAdvertisementData.connectable == true) "Yes" else "No"}"
     }
 
+    private fun bindActionButtons(){
+        binding.connectButton.setOnClickListener{
+            if(_obPeripheral.isOkToConnect()){
+                connectPeripheral()
+            }
+            else{
+                disconnectPeripheral()
+            }
+        }
+
+        binding.favoriteButton.setOnClickListener{
+
+        }
+
+        binding.filterButton.setOnClickListener{
+
+        }
+
+        binding.ignoreButton.setOnClickListener{
+
+        }
+
+        binding.locatorButton.setOnClickListener{
+
+        }
+
+        binding.gattButton.setOnClickListener{
+
+        }
+    }
+
+    private fun connectPeripheral(){
+        _obPeripheral.connect {
+            when (it){
+                ConnectionState.connecting -> {
+                    println("ConnectionState.connecting")
+                }
+                ConnectionState.connected -> {
+                    println("ConnectionState.connected")
+                    binding.connectButton.text = "Disconnect"
+                }
+                ConnectionState.performingGattDiscovery -> {
+                    println("ConnectionState.performingGattDiscovery")
+                }
+                ConnectionState.completedGattDiscovery -> {
+                    println("ConnectionState.completedGattDiscovery")
+                    binding.gattButton.visibility = View.VISIBLE
+                }
+                ConnectionState.disconnecting -> {
+                    println("ConnectionState.disconnecting")
+                }
+                ConnectionState.connectionFailed -> {
+                    println("ConnectionState.connectionFailed")
+                }
+                ConnectionState.disconnected -> {
+                    println("ConnectionState.disconnected")
+                    binding.connectButton.text = "Connect"
+                    binding.gattButton.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    private fun disconnectPeripheral(){
+        _obPeripheral.disconnect()
+    }
 
     private fun initializeRssiGraph(){
         graph = binding.graphView
@@ -147,14 +217,4 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
             graph.notifyDataSetChanged()
         }
     }
-
-//    internal class ChartEntry<K, V>(override val key: K, override var value: V) :
-//        MutableMap.MutableEntry<K, V> {
-//
-//        override fun setValue(value: V): V {
-//            val old = this.value
-//            this.value = value
-//            return old
-//        }
-//    }
 }

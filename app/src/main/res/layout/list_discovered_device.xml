@@ -42,61 +42,53 @@
 
                 <Button
                     android:id="@+id/connect_button"
+                    style="@style/actionButtonStyleFilled"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:backgroundTint="@color/colorAccent"
-                    android:text="Connect"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white" />
+                    android:text="Connect"/>
 
                 <Button
                     android:id="@+id/favorite_button"
+                    style="@style/actionButtonStyleOutlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Add Favorite"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="12sp"
-                    app:strokeColor="@color/colorAccent"
-                    app:strokeWidth="1dp" />
+                    android:text="Add Favorite"/>
 
                 <Button
                     android:id="@+id/filter_button"
+                    style="@style/actionButtonStyleOutlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Filter all others"
-                    android:textAllCaps="false"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorAccent"
-                    app:strokeColor="@color/colorAccent"
-                    app:strokeWidth="1dp" />
+                    android:text="Filter all others" />
 
                 <Button
                     android:id="@+id/ignore_button"
+                    style="@style/actionButtonStyleOutlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Ignore this device"
-                    android:textAllCaps="false"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorAccent"
-                    app:strokeColor="@color/colorAccent"
-                    app:strokeWidth="1dp" />
+                    android:text="Ignore this device"/>
 
                 <Button
                     android:id="@+id/locator_button"
+                    style="@style/actionButtonStyleOutlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Locator Mode"
-                    android:textAllCaps="false"
-                    android:textSize="12sp"
-                    android:textColor="@color/colorAccent"
-                    app:strokeColor="@color/colorAccent"
-                    app:strokeWidth="1dp" />
+                    android:text="Locator Mode"/>
+
+                <Button
+                    android:id="@+id/gatt_button"
+                    style="@style/actionButtonStyleOutlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="GATT"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
         </LinearLayout>
 
