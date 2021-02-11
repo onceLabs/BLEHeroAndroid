@@ -1,27 +1,27 @@
 package com.oncelabs.blehero.ui
 
+import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.FrameLayout
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.FragmentDiscoveryFilterBinding
+import com.oncelabs.blehero.ui.viewmodels.DiscoverFilter
 import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
+import com.oncelabs.blehero.ui.viewmodels.SortSetting
 
 
 class DiscoveryFilterFragment : BottomSheetDialogFragment(){
-//    private val logViewModel: LogViewModel by lazy {
-//        ViewModelProvider(this).get(LogViewModel::class.java)
-//    }
 
     private val discoverViewModel: DiscoverViewModel by activityViewModels()
     private lateinit var binding: FragmentDiscoveryFilterBinding
@@ -33,7 +33,13 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentDiscoveryFilterBinding.bind(inflater.inflate(R.layout.fragment_discovery_filter, container, false))
+        binding = FragmentDiscoveryFilterBinding.bind(
+            inflater.inflate(
+                R.layout.fragment_discovery_filter,
+                container,
+                false
+            )
+        )
         binding.filterSettings = discoverViewModel.discoverFilter
 
         setupBindings()
@@ -42,8 +48,55 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
     }
 
     private fun setupBindings(){
+        binding.rssiSeekBar.setOnSeekBarChangeListener(object :
+            OnSeekBarChangeListener {
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                // TODO Auto-generated method stub
+                binding.filterRssiLabel.text = "Minimum RSSI: ${progress-127}"
+            }
+        })
+
+
         binding.doneButton.setOnClickListener {
-//            discoverViewModel.discoverFilter.hideNonConnectableDevices
+            discoverViewModel.discoverFilter.minimumRssi = binding.rssiSeekBar.progress - 127
+            discoverViewModel.discoverFilter.hideNonConnectableDevices = binding.hideNonconnectableDevicesSwitch.isChecked
+            discoverViewModel.discoverFilter.hideUnNamedDevices = binding.hideUnnamedDevicesSwitch.isChecked
+            discoverViewModel.discoverFilter.onlyShowFavorites = binding.onlyShowFavoritesSwitch.isChecked
+
+            //Sort setting
+            var sortSetting = SortSetting.DONT_SORT
+
+            when(binding.sortRadioButtonGroup.checkedRadioButtonId){
+                binding.sortByRssiRadioButton.id -> {
+                    sortSetting = SortSetting.RSSI
+                }
+                binding.sortByMostActiveRadioButton.id -> {
+                    sortSetting = SortSetting.MOST_ACTIVE
+                }
+                binding.dontSortRadioButton.id -> {
+                    sortSetting = SortSetting.DONT_SORT
+                }
+            }
+            discoverViewModel.discoverFilter.sortSetting = sortSetting
+
+            dismiss()
+        }
+
+        binding.resetFilterButton.setOnClickListener{
+            //Reset defaults
+            discoverViewModel.discoverFilter = DiscoverFilter()
+
+            //Update the UI
+            binding.filterSettings = discoverViewModel.discoverFilter
         }
     }
 

@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.fragment_discover.*
 
 
 class DiscoverViewModel : ViewModel(){
-    val discoverFilter = DiscoverFilter()
+    var discoverFilter = DiscoverFilter()
     val discoveredDevices = MutableLiveData<List<OBPeripheral>>()
     val filteredDevices = MutableLiveData<List<OBPeripheral>>()
 
