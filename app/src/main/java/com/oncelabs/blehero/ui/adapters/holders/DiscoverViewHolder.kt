@@ -3,31 +3,23 @@ package com.oncelabs.blehero.ui.adapters.holders
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.graphics.Color
+import android.util.SparseArray
 import android.util.TypedValue
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.core.util.forEach
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.Utils
-import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
 import com.oncelabs.onceble.core.peripheral.ConnectionState
 import com.oncelabs.onceble.core.peripheral.OBAdvertisementData
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
-import java.text.DecimalFormat
 
 
 class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerView.ViewHolder(binding.root){
@@ -77,12 +69,17 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
     }
 
     fun initializeBindings(){
-        _obPeripheral.latestAdvData.observe(binding.root.context as LifecycleOwner, Observer {_advData ->
-            updateUI(_advData)
-        })
+        _obPeripheral.latestAdvData.observe(
+            binding.root.context as LifecycleOwner,
+            Observer { _advData ->
+                updateUI(_advData)
+            })
 
         _obPeripheral.rssiHistorical.observe(binding.root.context as LifecycleOwner, Observer {
-            val list = if (it.size >= graphDataPoints) it.subList(it.size-graphDataPoints, it.size) else it
+            val list = if (it.size >= graphDataPoints) it.subList(
+                it.size - graphDataPoints,
+                it.size
+            ) else it
             updateRssiGraph(list)
 //            println(it.last())
         })
@@ -93,6 +90,19 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         binding.deviceName.text = obAdvertisementData.name.toString()
         binding.macAddressLabel.text = obAdvertisementData.address.toString()
         binding.connectableLabel.text = "Connectable: ${if (obAdvertisementData.connectable == true) "Yes" else "No"}"
+
+        //MFG Data
+        var mfgData = byteArrayToString(sparseArrayToByteArray(obAdvertisementData.manufacturerData))
+        if(mfgData.isBlank()){
+            mfgData = "Not Advertised"
+        }
+        binding.manufacturerLabel.text = "Manufacturer Data: $mfgData"
+
+//        binding.txPowerLabel.text = "TX Power: ${_obPeripheral.rssiHistorical.value?.first() ?: "Unknown"}"
+        binding.servicesLabel.text = "Services: ${obAdvertisementData.serviceUuids ?: "Not Advertised"}"
+        binding.serviceDataLabel.text = "Service Data: " +
+                "${if(!obAdvertisementData.serviceData.isNullOrEmpty()) obAdvertisementData.serviceData 
+                else "Not Advertised"}"
     }
 
     private fun bindActionButtons(){
@@ -215,6 +225,38 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
 
             graph.data.notifyDataChanged()
             graph.notifyDataSetChanged()
+        }
+    }
+    
+    private fun sparseArrayToByteArray(sparseArray: SparseArray<ByteArray>?): ByteArray{
+        var byteArray = byteArrayOf()
+
+        sparseArray?.forEach{key, value ->
+            value.forEach {
+                byteArray += it
+//                println(it)
+            }
+        }
+
+//        println("###################")
+
+        return byteArray
+    }
+
+    private fun byteArrayToString(byteArray: ByteArray): String{
+        var string = ""
+
+        byteArray?.forEach {
+            val byteString = String.format("%02X", it)
+            string = "$string$byteString"
+        }
+
+//        println("String = $string")
+
+        return if(string.isBlank()){
+            ""
+        }else {
+            "0x$string"
         }
     }
 }

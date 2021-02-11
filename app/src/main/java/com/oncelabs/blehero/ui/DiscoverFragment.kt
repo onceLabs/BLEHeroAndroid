@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,12 +22,14 @@ import kotlinx.android.synthetic.main.list_discovered_device.*
 
 class DiscoverFragment : Fragment(){
 
-    private val discoverViewModel: DiscoverViewModel by lazy {
-        ViewModelProvider(this).get(DiscoverViewModel::class.java)
-    }
+//    private val discoverViewModel: DiscoverViewModel by lazy {
+//        ViewModelProvider(this).get(DiscoverViewModel::class.java)
+//    }
 
     lateinit var binding: FragmentDiscoverBinding
     private var adapter : DiscoverAdapter? = null
+
+    private val discoverViewModel: DiscoverViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +47,7 @@ class DiscoverFragment : Fragment(){
 
     private fun bindObservers(){
         DeviceManager.discoveredDevices.observe(viewLifecycleOwner, Observer {obPeripheralList ->
+
             adapter?.updateDevices(obPeripheralList)
             discovered_devices_number.text = "${obPeripheralList.size} Devices"
         })
@@ -63,8 +67,8 @@ class DiscoverFragment : Fragment(){
         }
 
         binding.filterSortButton.setOnClickListener {
-//            showFilterSortDialog()
-            showGattActivity()
+            showFilterSortDialog()
+//            showGattActivity()
         }
     }
 

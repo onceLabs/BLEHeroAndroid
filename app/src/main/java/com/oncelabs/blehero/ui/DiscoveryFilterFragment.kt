@@ -9,17 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.FragmentDiscoveryFilterBinding
+import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
 
 
 class DiscoveryFilterFragment : BottomSheetDialogFragment(){
 //    private val logViewModel: LogViewModel by lazy {
 //        ViewModelProvider(this).get(LogViewModel::class.java)
 //    }
+
+    private val discoverViewModel: DiscoverViewModel by activityViewModels()
+    private lateinit var binding: FragmentDiscoveryFilterBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,8 +33,18 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = FragmentDiscoveryFilterBinding.bind(inflater.inflate(R.layout.fragment_discovery_filter, container, false))
+        binding = FragmentDiscoveryFilterBinding.bind(inflater.inflate(R.layout.fragment_discovery_filter, container, false))
+        binding.filterSettings = discoverViewModel.discoverFilterSettings
+
+        setupBindings()
+
         return binding.root
+    }
+
+    private fun setupBindings(){
+        binding.doneButton.setOnClickListener {
+            discoverViewModel.discoverFilterSettings.hideNonConnectableDevices
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

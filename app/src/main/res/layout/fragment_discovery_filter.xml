@@ -4,9 +4,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="com.oncelabs.blehero.ui.viewmodels.SortSetting" />
+
         <variable
             name="globalTheme"
             type="com.oncelabs.blehero.ui.themes.GlobalTheme" />
+
+        <variable
+            name="filterSettings"
+            type="com.oncelabs.blehero.ui.viewmodels.DiscoverFilterSettings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -144,7 +150,8 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="8dp"
                     android:layoutDirection="rtl"
-                    android:text="Sort by RSSI" />
+                    android:text="Sort by RSSI"
+                    android:checked="@{filterSettings.sortSetting == SortSetting.RSSI}"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -162,7 +169,8 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="8dp"
                     android:layoutDirection="rtl"
-                    android:text="Sort by most active" />
+                    android:text="Sort by most active"
+                    android:checked="@{filterSettings.sortSetting == SortSetting.MOST_ACTIVE}"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -180,7 +188,8 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="8dp"
                     android:layoutDirection="rtl"
-                    android:text="Don't sort" />
+                    android:text="Don't sort"
+                    android:checked="@{filterSettings.sortSetting == SortSetting.DONT_SORT}"/>
             </RadioGroup>
         </LinearLayout>
 

@@ -155,7 +155,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -165,7 +165,7 @@
 
                 <TextView
                     android:id="@+id/mac_address_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="2dp"
@@ -174,9 +174,9 @@
                     android:text="Mac Address: Not Available"
                     android:textColor="@android:color/white" />
 
-            </ScrollView>
+            </HorizontalScrollView>
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -186,7 +186,7 @@
 
                 <TextView
                     android:id="@+id/connectable_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="2dp"
@@ -195,11 +195,12 @@
                     android:text="Connectable: No"
                     android:textColor="@android:color/white" />
 
-            </ScrollView>
+            </HorizontalScrollView>
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
@@ -207,7 +208,7 @@
 
                 <TextView
                     android:id="@+id/manufacturer_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="2dp"
@@ -216,9 +217,9 @@
                     android:text="Manufacturer Data: Not Advertised"
                     android:textColor="@android:color/white" />
 
-            </ScrollView>
+            </HorizontalScrollView>
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -228,7 +229,7 @@
 
                 <TextView
                     android:id="@+id/tx_power_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="2dp"
@@ -237,9 +238,9 @@
                     android:text="TX Power: Not Advertised"
                     android:textColor="@android:color/white" />
 
-            </ScrollView>
+            </HorizontalScrollView>
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -249,7 +250,7 @@
 
                 <TextView
                     android:id="@+id/services_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="2dp"
@@ -258,9 +259,9 @@
                     android:text="Services: None Advertised"
                     android:textColor="@android:color/white" />
 
-            </ScrollView>
+            </HorizontalScrollView>
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -270,7 +271,7 @@
 
                 <TextView
                     android:id="@+id/service_data_label"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="2dp"
@@ -279,7 +280,7 @@
                     android:text="Service Data: No Service Data"
                     android:textColor="@android:color/white" />
 
-            </ScrollView>
+            </HorizontalScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"
