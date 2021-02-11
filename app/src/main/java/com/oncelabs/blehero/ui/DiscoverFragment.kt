@@ -1,10 +1,12 @@
 package com.oncelabs.blehero.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -17,6 +19,7 @@ import com.oncelabs.blehero.R
 import com.oncelabs.blehero.model.Device
 import com.oncelabs.blehero.model.DeviceManager
 import com.oncelabs.blehero.ui.adapters.DiscoverAdapter
+import com.oncelabs.onceble.core.peripheral.OBPeripheral
 import kotlinx.android.synthetic.main.fragment_discover.*
 import kotlinx.android.synthetic.main.list_discovered_device.*
 
@@ -37,19 +40,21 @@ class DiscoverFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         binding = FragmentDiscoverBinding.bind(inflater.inflate(R.layout.fragment_discover, container, false))
+
+        discoverViewModel.init(viewLifecycleOwner)
         binding.viewModel = discoverViewModel
+
         initList()
         bindObservers()
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bindObservers(){
-        DeviceManager.discoveredDevices.observe(viewLifecycleOwner, Observer {obPeripheralList ->
-
-            adapter?.updateDevices(obPeripheralList)
-            discovered_devices_number.text = "${obPeripheralList.size} Devices"
+        discoverViewModel.filteredDevices.observe(viewLifecycleOwner, Observer{
+            adapter?.updateDevices(it)
+            discovered_devices_number.text = "${it.size} Devices"
         })
 
         binding.discoveredDeviceSearch.setOnClickListener {
@@ -59,16 +64,23 @@ class DiscoverFragment : Fragment(){
             }
             else{
                 binding.deviceSearchContainer.visibility = View.GONE
+                binding.searchField.text.clear()
             }
         }
 
         binding.cancelSearchButton.setOnClickListener {
             binding.deviceSearchContainer.visibility = View.GONE
+            binding.searchField.text.clear()
         }
 
         binding.filterSortButton.setOnClickListener {
             showFilterSortDialog()
 //            showGattActivity()
+        }
+
+        binding.searchField.doOnTextChanged { text, start, before, count ->
+            discoverViewModel.discoverFilter.searchString = text.toString()
+            discoverViewModel.updateDevices()
         }
     }
 

@@ -34,7 +34,7 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding = FragmentDiscoveryFilterBinding.bind(inflater.inflate(R.layout.fragment_discovery_filter, container, false))
-        binding.filterSettings = discoverViewModel.discoverFilterSettings
+        binding.filterSettings = discoverViewModel.discoverFilter
 
         setupBindings()
 
@@ -43,7 +43,7 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
 
     private fun setupBindings(){
         binding.doneButton.setOnClickListener {
-            discoverViewModel.discoverFilterSettings.hideNonConnectableDevices
+//            discoverViewModel.discoverFilter.hideNonConnectableDevices
         }
     }
 

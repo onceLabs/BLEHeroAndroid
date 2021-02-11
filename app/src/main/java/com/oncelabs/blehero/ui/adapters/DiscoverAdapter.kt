@@ -1,13 +1,10 @@
 package com.oncelabs.blehero.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
-import com.oncelabs.blehero.model.Device
 import com.oncelabs.blehero.ui.adapters.holders.DiscoverViewHolder
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
 

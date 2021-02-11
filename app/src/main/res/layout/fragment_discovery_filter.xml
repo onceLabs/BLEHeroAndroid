@@ -12,7 +12,7 @@
 
         <variable
             name="filterSettings"
-            type="com.oncelabs.blehero.ui.viewmodels.DiscoverFilterSettings" />
+            type="com.oncelabs.blehero.ui.viewmodels.DiscoverFilter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

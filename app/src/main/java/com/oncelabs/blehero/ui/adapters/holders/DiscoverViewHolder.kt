@@ -92,7 +92,7 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         binding.connectableLabel.text = "Connectable: ${if (obAdvertisementData.connectable == true) "Yes" else "No"}"
 
         //MFG Data
-        var mfgData = byteArrayToString(sparseArrayToByteArray(obAdvertisementData.manufacturerData))
+        var mfgData = byteArrayToString(obAdvertisementData.manufacturerData)
         if(mfgData.isBlank()){
             mfgData = "Not Advertised"
         }
@@ -227,21 +227,6 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
             graph.notifyDataSetChanged()
         }
     }
-    
-    private fun sparseArrayToByteArray(sparseArray: SparseArray<ByteArray>?): ByteArray{
-        var byteArray = byteArrayOf()
-
-        sparseArray?.forEach{key, value ->
-            value.forEach {
-                byteArray += it
-//                println(it)
-            }
-        }
-
-//        println("###################")
-
-        return byteArray
-    }
 
     private fun byteArrayToString(byteArray: ByteArray): String{
         var string = ""
@@ -250,8 +235,6 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
             val byteString = String.format("%02X", it)
             string = "$string$byteString"
         }
-
-//        println("String = $string")
 
         return if(string.isBlank()){
             ""
