@@ -40,6 +40,7 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
                 false
             )
         )
+
         binding.filterSettings = discoverViewModel.discoverFilter
 
         setupBindings()

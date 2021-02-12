@@ -9,8 +9,8 @@
             type="com.oncelabs.blehero.ui.themes.GlobalTheme" />
 
         <variable
-            name="peripheral"
-            type="com.oncelabs.onceble.core.peripheral.OBPeripheral" />
+            name="service"
+            type="com.oncelabs.onceble.core.peripheral.gattClient.OBService" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

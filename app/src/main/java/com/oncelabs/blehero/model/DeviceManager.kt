@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.oncelabs.onceble.core.central.OBCentralManager
 import com.oncelabs.onceble.core.central.OBEvent
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
+import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,12 +15,13 @@ object DeviceManager{
 
     private var obCentralManager: OBCentralManager? = null
 
-    private val _discoveredDevices = MutableLiveData<List<OBPeripheral>>()
-    val discoveredDevices : LiveData<List<OBPeripheral>>
+    private val _discoveredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
+    val discoveredDevices : LiveData<List<OBPeripheral<out OBGatt>>>
         get() = _discoveredDevices
 
-    private var discoveredDevicesMap: MutableMap<String, OBPeripheral> = mutableMapOf()
+    private var discoveredDevicesMap: MutableMap<String, OBPeripheral<out OBGatt>> = mutableMapOf()
 
+    var selectedDeviceForGatt: OBPeripheral<out OBGatt>? = null
 
     fun init(context: Context){
         obCentralManager = OBCentralManager(loggingEnabled = false, context = context)
@@ -46,7 +48,7 @@ object DeviceManager{
 
     private fun updateDiscoveredDevices(){
 
-        val devices: MutableList<OBPeripheral> = mutableListOf()
+        val devices: MutableList<OBPeripheral<out OBGatt>> = mutableListOf()
 
         discoveredDevicesMap.forEach{
             devices.add(it.value)

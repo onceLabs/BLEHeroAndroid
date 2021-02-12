@@ -1,12 +1,12 @@
 package com.oncelabs.blehero.ui.adapters.holders
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
-import android.util.SparseArray
 import android.util.TypedValue
 import android.view.View
-import androidx.core.util.forEach
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -17,15 +17,23 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
+import com.oncelabs.blehero.model.DeviceManager
+import com.oncelabs.blehero.ui.GattProfileActivity
 import com.oncelabs.onceble.core.peripheral.ConnectionState
 import com.oncelabs.onceble.core.peripheral.OBAdvertisementData
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
+import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 
 class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerView.ViewHolder(binding.root){
 
     private lateinit var graph: LineChart
-    private lateinit var _obPeripheral: OBPeripheral
+    private lateinit var _obPeripheral: OBPeripheral<out OBGatt>
 
     private val graphDataPoints = 15
 
@@ -35,7 +43,7 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         _obPeripheral.rssiHistorical.removeObservers(binding.root.context as LifecycleOwner)
     }
 
-    fun bind(obPeripheral: OBPeripheral){
+    fun bind(obPeripheral: OBPeripheral<out OBGatt>){
         _obPeripheral = obPeripheral
         binding.peripheral = _obPeripheral
 
@@ -61,6 +69,8 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
                 binding.actionInfoButton.text = "Actions"
             }
         }
+
+//        binding.gattButton.visibility = View.VISIBLE
 
         initializeRssiGraph()
         initializeBindings()
@@ -132,7 +142,8 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         }
 
         binding.gattButton.setOnClickListener{
-
+            DeviceManager.selectedDeviceForGatt = _obPeripheral
+            showGattActivity()
         }
     }
 
@@ -151,7 +162,9 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
                 }
                 ConnectionState.completedGattDiscovery -> {
                     println("ConnectionState.completedGattDiscovery")
-                    binding.gattButton.visibility = View.VISIBLE
+                    GlobalScope.launch(Dispatchers.Main){
+                        binding.gattButton.visibility = View.VISIBLE
+                    }
                 }
                 ConnectionState.disconnecting -> {
                     println("ConnectionState.disconnecting")
@@ -161,8 +174,10 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
                 }
                 ConnectionState.disconnected -> {
                     println("ConnectionState.disconnected")
-                    binding.connectButton.text = "Connect"
-                    binding.gattButton.visibility = View.GONE
+                    GlobalScope.launch(Dispatchers.Main){
+                        binding.connectButton.text = "Connect"
+                        binding.gattButton.visibility = View.GONE
+                    }
                 }
             }
         }
@@ -170,6 +185,8 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
 
     private fun disconnectPeripheral(){
         _obPeripheral.disconnect()
+        binding.connectButton.text = "Connect"
+        binding.gattButton.visibility = View.GONE
     }
 
     private fun initializeRssiGraph(){
@@ -226,6 +243,11 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
             graph.data.notifyDataChanged()
             graph.notifyDataSetChanged()
         }
+    }
+
+    private fun showGattActivity(){
+        val intent = Intent(binding.root.context, GattProfileActivity::class.java)
+        startActivity(binding.root.context, intent, null)
     }
 
     private fun byteArrayToString(byteArray: ByteArray): String{

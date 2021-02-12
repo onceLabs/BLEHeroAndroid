@@ -4,13 +4,14 @@ import android.os.Looper
 import androidx.lifecycle.*
 import com.oncelabs.blehero.model.DeviceManager
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
+import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
 import kotlinx.android.synthetic.main.fragment_discover.*
 
 
 class DiscoverViewModel : ViewModel(){
     var discoverFilter = DiscoverFilter()
-    val discoveredDevices = MutableLiveData<List<OBPeripheral>>()
-    val filteredDevices = MutableLiveData<List<OBPeripheral>>()
+    val discoveredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
+    val filteredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
 
     val favoritesAddressList = mutableListOf<String>()
 
@@ -40,13 +41,13 @@ class DiscoverViewModel : ViewModel(){
         stopFilterTimer()
     }
 
-    private val discoveredDevicesObserver: Observer<List<OBPeripheral>> = Observer { obPeripheralList ->
+    private val discoveredDevicesObserver: Observer<List<OBPeripheral<out OBGatt>>> = Observer { obPeripheralList ->
         discoveredDevices.value = obPeripheralList.toMutableList()
         updateDevices()
     }
 
-    private fun getFilteredDevices(deviceList: List<OBPeripheral>): List<OBPeripheral>{
-        var filteredDevices = mutableListOf<OBPeripheral>()
+    private fun getFilteredDevices(deviceList: List<OBPeripheral<out OBGatt>>): List<OBPeripheral<out OBGatt>>{
+        var filteredDevices = mutableListOf<OBPeripheral<out OBGatt>>()
 
         deviceList.forEach{device ->
             var addDevice = true
@@ -101,7 +102,11 @@ class DiscoverViewModel : ViewModel(){
     fun updateDevices(){
         println("Updateing devices")
         discoveredDevices.value?.let{
-            filteredDevices.value = getFilteredDevices(it)
+            val tempFilteredDevices = getFilteredDevices(it)
+
+            if(tempFilteredDevices != filteredDevices.value){
+                filteredDevices.value = getFilteredDevices(it)
+            }
         }
     }
 }

@@ -7,11 +7,12 @@ import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
 import com.oncelabs.blehero.ui.adapters.holders.DiscoverViewHolder
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
+import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
 
 
 class DiscoverAdapter() : RecyclerView.Adapter<DiscoverViewHolder>(){
 
-    private val devices = mutableListOf<OBPeripheral>()
+    private val devices = mutableListOf<OBPeripheral<out OBGatt>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoverViewHolder {
 
@@ -46,7 +47,7 @@ class DiscoverAdapter() : RecyclerView.Adapter<DiscoverViewHolder>(){
         return devices.size
     }
 
-    fun addDevice(obPeripheral: OBPeripheral){
+    fun addDevice(obPeripheral: OBPeripheral<out OBGatt>){
         if(!devices.contains(obPeripheral)){
             println("Adding device ${obPeripheral.latestAdvData.value?.name}")
             devices.add(0, obPeripheral)
@@ -54,11 +55,15 @@ class DiscoverAdapter() : RecyclerView.Adapter<DiscoverViewHolder>(){
         }
     }
 
-    fun updateDevices(devicesList: List<OBPeripheral>){
-        devices.clear()
-        devicesList.forEach{
-            devices.add(it)
+    fun updateDevices(devicesList: List<OBPeripheral<out OBGatt>>){
+        if(devices != devicesList){
+            devices.clear()
+            devicesList.forEach{
+                devices.add(it)
+            }
+
+            println("Data set changed")
+            notifyDataSetChanged()
         }
-        notifyDataSetChanged()
     }
 }
