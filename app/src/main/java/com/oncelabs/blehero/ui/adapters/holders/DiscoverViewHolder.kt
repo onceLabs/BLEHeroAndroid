@@ -86,6 +86,8 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
             })
 
         _obPeripheral.rssiHistorical.observe(binding.root.context as LifecycleOwner, Observer {
+            binding.rssiLabel.text = "RSSI: ${it.first()}"
+
             val list = if (it.size >= graphDataPoints) it.subList(
                 it.size - graphDataPoints,
                 it.size
@@ -113,6 +115,8 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         binding.serviceDataLabel.text = "Service Data: " +
                 "${if(!obAdvertisementData.serviceData.isNullOrEmpty()) obAdvertisementData.serviceData 
                 else "Not Advertised"}"
+
+        binding.intervalLabel.text = "Interval (est): ${obAdvertisementData.advInterval} ms"
     }
 
     private fun bindActionButtons(){

@@ -100,7 +100,7 @@ class DiscoverViewModel : ViewModel(){
     }
 
     fun updateDevices(){
-        println("Updateing devices")
+//        println("Updateing devices")
         discoveredDevices.value?.let{
             val tempFilteredDevices = getFilteredDevices(it)
 

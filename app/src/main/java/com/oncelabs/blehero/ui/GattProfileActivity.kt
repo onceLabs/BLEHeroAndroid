@@ -1,5 +1,7 @@
 package com.oncelabs.blehero.ui
 
+import android.bluetooth.BluetoothGattService
+import android.bluetooth.BluetoothHeadset
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -57,6 +59,7 @@ class GattProfileActivity : AppCompatActivity() {
             val tempList = mutableListOf<OBService>()
             _obPeripheral?.obGatt?.services?.forEach {
                 tempList.add(it.value)
+                println("Added service = ${it.key}")
             }
 
             adapter?.updateServices(tempList)

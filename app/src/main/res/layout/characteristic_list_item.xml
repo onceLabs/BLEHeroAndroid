@@ -9,8 +9,8 @@
             type="com.oncelabs.blehero.ui.themes.GlobalTheme" />
 
         <variable
-            name="peripheral"
-            type="com.oncelabs.onceble.core.peripheral.OBPeripheral" />
+            name="characteristic"
+            type="com.oncelabs.onceble.core.peripheral.gattClient.OBCharacteristic" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,11 +24,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-medium"
             android:text="Characteristic"
             android:textColor="@color/colorAccent"
-            android:textSize="22sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,8 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="UUID: 505FD975-72EF-4BA8-B4E6-62FF0B361F47"
-            android:textSize="18sp"
+            android:text="@{`UUID: ` + characteristic.uuid}"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/service_label" />
 
@@ -50,7 +50,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
             android:text="Properties: Write, Read, Indicate"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/characteristic_uuid_label" />
 
@@ -60,12 +60,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:layout_marginBottom="20dp"
-            android:text="Descriptors: 0"
-            android:textSize="18sp"
+            android:layout_marginBottom="8dp"
+            android:text="@{`Descriptors: ` + String.valueOf(characteristic.descriptors.length)}"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/characteristic_properties_label" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -1,5 +1,6 @@
 package com.oncelabs.blehero.ui.adapters
 
+import android.bluetooth.BluetoothGattService
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +24,7 @@ class GattServicesAdapter() : RecyclerView.Adapter<ServicesViewHolder>(){
         return ServicesViewHolder(
             ServiceListItemBinding.bind(
             LayoutInflater.from(parent.context).inflate(
-            R.layout.list_discovered_device,
+            R.layout.service_list_item,
             parent,
             false
         )))
