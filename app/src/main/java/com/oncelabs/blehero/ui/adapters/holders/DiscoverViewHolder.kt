@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -17,8 +18,12 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
+import com.oncelabs.blehero.model.AppSettingsManager
 import com.oncelabs.blehero.model.DeviceManager
+import com.oncelabs.blehero.model.DiscoverFilter
+import com.oncelabs.blehero.model.SavedDevice
 import com.oncelabs.blehero.ui.GattProfileActivity
+import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
 import com.oncelabs.onceble.core.peripheral.ConnectionState
 import com.oncelabs.onceble.core.peripheral.OBAdvertisementData
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
@@ -31,7 +36,6 @@ import kotlin.coroutines.CoroutineContext
 
 
 class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerView.ViewHolder(binding.root){
-
     private lateinit var graph: LineChart
     private lateinit var _obPeripheral: OBPeripheral<out OBGatt>
 
@@ -130,15 +134,34 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         }
 
         binding.favoriteButton.setOnClickListener{
+            _obPeripheral.latestAdvData.value?.let{
+                if(AppSettingsManager.isDeviceFavorite(it.address)){
+                    AppSettingsManager.removeFavoriteDevice(it.address)
+                }
+                else{
+                    AppSettingsManager.addFavoriteDevice(it.address, it.name)
+                }
 
+                updateActionButtonsUi()
+            }
         }
 
         binding.filterButton.setOnClickListener{
-
+            _obPeripheral.latestAdvData.value?.address?.let{
+                if(DiscoverFilter.filterAllBut.equals(it, ignoreCase = true)){
+                    DiscoverFilter.filterAllBut = ""
+                }
+                else{
+                    DiscoverFilter.filterAllBut = it
+                }
+                updateActionButtonsUi()
+            }
         }
 
         binding.ignoreButton.setOnClickListener{
-
+            _obPeripheral.latestAdvData.value?.let{
+                AppSettingsManager.addIgnoredDevice(it.address, it.name)
+            }
         }
 
         binding.locatorButton.setOnClickListener{
@@ -148,6 +171,18 @@ class DiscoverViewHolder(val binding: ListDiscoveredDeviceBinding) : RecyclerVie
         binding.gattButton.setOnClickListener{
             DeviceManager.selectedDeviceForGatt = _obPeripheral
             showGattActivity()
+        }
+
+        updateActionButtonsUi()
+    }
+
+    private fun updateActionButtonsUi(){
+        _obPeripheral.latestAdvData.value?.let{
+            val isFavorite = AppSettingsManager.isDeviceFavorite(it.address)
+            binding.favoriteButton.text = if(isFavorite) "Remove Favorite" else "Add Favorite"
+
+            val isFilteringOthers = DiscoverFilter.filterAllBut.equals(it.address, ignoreCase = true)
+            binding.filterButton.text = if(isFilteringOthers) "Show all others" else "Filter all others"
         }
     }
 

@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.oncelabs.blehero.R
+import com.oncelabs.blehero.model.AppSettingsManager
 import com.oncelabs.blehero.model.DeviceManager
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        AppSettingsManager.init(this)
 
         //Lock screen rotation to portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

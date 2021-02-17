@@ -2,18 +2,19 @@ package com.oncelabs.blehero.ui.viewmodels
 
 import android.os.Looper
 import androidx.lifecycle.*
-import com.oncelabs.blehero.model.DeviceManager
+import com.oncelabs.blehero.model.*
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
 import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
 import kotlinx.android.synthetic.main.fragment_discover.*
 
 
 class DiscoverViewModel : ViewModel(){
-    var discoverFilter = DiscoverFilter()
+//    var DiscoverFilter = DiscoverFilter()
     val discoveredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
     val filteredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
 
     val favoritesAddressList = mutableListOf<String>()
+    val ignoredAddressList = mutableListOf<String>()
 
     private val mainHandler = android.os.Handler(Looper.getMainLooper())
 
@@ -34,11 +35,27 @@ class DiscoverViewModel : ViewModel(){
 
     fun init(viewLifecycleOwner: LifecycleOwner){
         DeviceManager.discoveredDevices.observe(viewLifecycleOwner, discoveredDevicesObserver)
+        AppSettingsManager.appSettings.observe(viewLifecycleOwner, appSettingsObserver)
         startFilterTimer()
     }
 
     fun dispose(){
         stopFilterTimer()
+    }
+
+    private val appSettingsObserver: Observer<AppSettings> = Observer {
+        favoritesAddressList.clear()
+        ignoredAddressList.clear()
+
+        it.favoriteDevices.forEach { device ->
+            device.id?.let { id -> favoritesAddressList.add(id)}
+        }
+
+        it.ignoredDevices.forEach { device ->
+            device.id?.let { id -> ignoredAddressList.add(id)}
+        }
+
+        updateDevices()
     }
 
     private val discoveredDevicesObserver: Observer<List<OBPeripheral<out OBGatt>>> = Observer { obPeripheralList ->
@@ -52,24 +69,32 @@ class DiscoverViewModel : ViewModel(){
         deviceList.forEach{device ->
             var addDevice = true
 
-            if(!((device.latestAdvData.value?.searchableString?.toLowerCase()?.contains(discoverFilter.searchString.toLowerCase()) == true) ||
-                discoverFilter.searchString.isBlank())){
+            if(!((device.latestAdvData.value?.searchableString?.toLowerCase()?.contains(DiscoverFilter.searchString.toLowerCase()) == true) ||
+                DiscoverFilter.searchString.isBlank())){
                 addDevice = false
             }
 
-            if((device.latestAdvData.value?.rssi ?: -127) < discoverFilter.minimumRssi){
+            if((device.latestAdvData.value?.rssi ?: -127) < DiscoverFilter.minimumRssi){
                 addDevice = false
             }
 
-            if(discoverFilter.hideNonConnectableDevices && (device.latestAdvData.value?.connectable == false)){
+            if(DiscoverFilter.hideNonConnectableDevices && (device.latestAdvData.value?.connectable == false)){
                 addDevice = false
             }
 
-            if(discoverFilter.hideUnNamedDevices && (device.latestAdvData.value?.name.isNullOrBlank())){
+            if(DiscoverFilter.hideUnNamedDevices && (device.latestAdvData.value?.name.isNullOrBlank())){
                 addDevice = false
             }
 
-            if(discoverFilter.onlyShowFavorites && !favoritesAddressList.contains(device.latestAdvData.value?.address)){
+            if(DiscoverFilter.onlyShowFavorites && !favoritesAddressList.contains(device.latestAdvData.value?.address)){
+                addDevice = false
+            }
+
+            if(ignoredAddressList.contains(device.latestAdvData.value?.address)){
+                addDevice = false
+            }
+
+            if((DiscoverFilter.filterAllBut.isNotBlank()) && (DiscoverFilter.filterAllBut != device.latestAdvData.value?.address)){
                 addDevice = false
             }
 
@@ -80,7 +105,7 @@ class DiscoverViewModel : ViewModel(){
         }
 
         //Sort filtered devices
-        when(discoverFilter.sortSetting){
+        when(DiscoverFilter.sortSetting){
             SortSetting.DONT_SORT->{
                 //Do nothing here
             }
@@ -109,19 +134,4 @@ class DiscoverViewModel : ViewModel(){
             }
         }
     }
-}
-
-class DiscoverFilter{
-    var minimumRssi: Int = -127
-    var hideNonConnectableDevices: Boolean = false
-    var hideUnNamedDevices: Boolean = false
-    var onlyShowFavorites: Boolean = false
-    var sortSetting: SortSetting = SortSetting.DONT_SORT
-    var searchString: String = ""
-}
-
-enum class SortSetting{
-    RSSI,
-    MOST_ACTIVE,
-    DONT_SORT
 }

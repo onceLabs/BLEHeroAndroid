@@ -18,6 +18,7 @@ import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.model.Device
 import com.oncelabs.blehero.model.DeviceManager
+import com.oncelabs.blehero.model.DiscoverFilter
 import com.oncelabs.blehero.ui.adapters.DiscoverAdapter
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
 import kotlinx.android.synthetic.main.fragment_discover.*
@@ -79,7 +80,7 @@ class DiscoverFragment : Fragment(){
         }
 
         binding.searchField.doOnTextChanged { text, start, before, count ->
-            discoverViewModel.discoverFilter.searchString = text.toString()
+            DiscoverFilter.searchString = text.toString()
             discoverViewModel.updateDevices()
         }
     }

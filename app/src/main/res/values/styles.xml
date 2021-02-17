@@ -37,7 +37,7 @@
 
     <style name="settingsTableTitle">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="settingsTableContent">

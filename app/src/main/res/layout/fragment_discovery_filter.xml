@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.oncelabs.blehero.ui.viewmodels.SortSetting" />
+        <import type="com.oncelabs.blehero.model.SortSetting" />
 
         <variable
             name="globalTheme"
@@ -12,7 +12,7 @@
 
         <variable
             name="filterSettings"
-            type="com.oncelabs.blehero.ui.viewmodels.DiscoverFilter" />
+            type="com.oncelabs.blehero.model.DiscoverFilter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

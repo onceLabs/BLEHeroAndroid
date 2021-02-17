@@ -16,9 +16,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.FragmentDiscoveryFilterBinding
-import com.oncelabs.blehero.ui.viewmodels.DiscoverFilter
+import com.oncelabs.blehero.model.DiscoverFilter
+import com.oncelabs.blehero.model.SortSetting
 import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
-import com.oncelabs.blehero.ui.viewmodels.SortSetting
 
 
 class DiscoveryFilterFragment : BottomSheetDialogFragment(){
@@ -41,7 +41,7 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
             )
         )
 
-        binding.filterSettings = discoverViewModel.discoverFilter
+        binding.filterSettings = DiscoverFilter
 
         setupBindings()
 
@@ -68,10 +68,10 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
 
 
         binding.doneButton.setOnClickListener {
-            discoverViewModel.discoverFilter.minimumRssi = binding.rssiSeekBar.progress - 127
-            discoverViewModel.discoverFilter.hideNonConnectableDevices = binding.hideNonconnectableDevicesSwitch.isChecked
-            discoverViewModel.discoverFilter.hideUnNamedDevices = binding.hideUnnamedDevicesSwitch.isChecked
-            discoverViewModel.discoverFilter.onlyShowFavorites = binding.onlyShowFavoritesSwitch.isChecked
+            DiscoverFilter.minimumRssi = binding.rssiSeekBar.progress - 127
+            DiscoverFilter.hideNonConnectableDevices = binding.hideNonconnectableDevicesSwitch.isChecked
+            DiscoverFilter.hideUnNamedDevices = binding.hideUnnamedDevicesSwitch.isChecked
+            DiscoverFilter.onlyShowFavorites = binding.onlyShowFavoritesSwitch.isChecked
 
             //Sort setting
             var sortSetting = SortSetting.DONT_SORT
@@ -87,17 +87,17 @@ class DiscoveryFilterFragment : BottomSheetDialogFragment(){
                     sortSetting = SortSetting.DONT_SORT
                 }
             }
-            discoverViewModel.discoverFilter.sortSetting = sortSetting
+            DiscoverFilter.sortSetting = sortSetting
 
             dismiss()
         }
 
         binding.resetFilterButton.setOnClickListener{
             //Reset defaults
-            discoverViewModel.discoverFilter = DiscoverFilter()
+            DiscoverFilter.reset()
 
             //Update the UI
-            binding.filterSettings = discoverViewModel.discoverFilter
+            binding.filterSettings = DiscoverFilter
         }
     }
 
