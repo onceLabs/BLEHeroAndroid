@@ -43,13 +43,16 @@ object AppSettingsManager{
     }
 
     fun removeIgnoredDevice(macAddress: String){
+        var savedDeviceToRemove: SavedDevice? = null
         this.appSettings.value?.ignoredDevices?.forEach{
             if(it.id?.equals(macAddress, ignoreCase = true) == true){
-                this.appSettings.value?.let{settings ->
-                    settings.ignoredDevices.remove(it)
-                    saveAppSettings(settings)
-                }
+                savedDeviceToRemove = it
             }
+        }
+
+        this.appSettings.value?.let{settings ->
+            settings.ignoredDevices.remove(savedDeviceToRemove)
+            saveAppSettings(settings)
         }
     }
 
@@ -78,13 +81,16 @@ object AppSettingsManager{
     }
 
     fun removeFavoriteDevice(macAddress: String){
+        var savedDeviceToRemove: SavedDevice? = null
         this.appSettings.value?.favoriteDevices?.forEach{
             if(it.id?.equals(macAddress, ignoreCase = true) == true){
-                this.appSettings.value?.let{settings ->
-                    settings.favoriteDevices.remove(it)
-                    saveAppSettings(settings)
-                }
+                savedDeviceToRemove = it
             }
+        }
+
+        this.appSettings.value?.let{settings ->
+            settings.favoriteDevices.remove(savedDeviceToRemove)
+            saveAppSettings(settings)
         }
     }
 

@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.preference.PreferenceFragmentCompat
-import com.oncelabs.blehero.databinding.FragmentSettingsBinding
-import com.oncelabs.blehero.ui.viewmodels.SettingsViewModel
+import com.google.android.play.core.splitinstall.f
 import com.oncelabs.blehero.R
+import com.oncelabs.blehero.databinding.FragmentSettingsBinding
 import com.oncelabs.blehero.model.AppSettingsManager
-import com.oncelabs.blehero.model.SavedDevice
+import com.oncelabs.blehero.ui.adapters.holders.SavedDeviceType
+import com.oncelabs.blehero.ui.viewmodels.SettingsViewModel
+
 
 class SettingsFragment : Fragment() {
 
@@ -30,7 +30,13 @@ class SettingsFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        binding = FragmentSettingsBinding.bind(inflater.inflate(R.layout.fragment_settings, container, false))
+        binding = FragmentSettingsBinding.bind(
+            inflater.inflate(
+                R.layout.fragment_settings,
+                container,
+                false
+            )
+        )
         binding.viewModel = settingsViewModel
 
         setBindings()
@@ -63,6 +69,27 @@ class SettingsFragment : Fragment() {
     }
 
     fun setBindings(){
+
+        binding.favoritesButton.setOnClickListener {
+            if(AppSettingsManager.appSettings.value?.favoriteDevices?.isNotEmpty() == true){
+                val fragment = ManageFavoritesDialogFragment()
+                val args = Bundle()
+                args.putInt("saved_device_type", SavedDeviceType.FAVORITE.ordinal)
+                fragment.arguments = args
+                fragment.show(childFragmentManager, ManageFavoritesDialogFragment.TAG)
+            }
+        }
+
+        binding.ignoredDevicesButton.setOnClickListener {
+            if(AppSettingsManager.appSettings.value?.ignoredDevices?.isNotEmpty() == true) {
+                val fragment = ManageFavoritesDialogFragment()
+                val args = Bundle()
+                args.putInt("saved_device_type", SavedDeviceType.IGNORED.ordinal)
+                fragment.arguments = args
+                fragment.show(childFragmentManager, ManageFavoritesDialogFragment.TAG)
+            }
+        }
+
         binding.advertisementDataSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             val appSettings = AppSettingsManager.appSettings.value ?: return@setOnCheckedChangeListener
             appSettings.logAdvertisementData = isChecked

@@ -53,6 +53,35 @@ class DiscoverFragment : Fragment(){
 
     @SuppressLint("SetTextI18n")
     private fun bindObservers(){
+
+        binding.fabFilterDevices.setOnClickListener {
+            showFilterSortDialog()
+            binding.floatingActionButton.collapse()
+        }
+
+        binding.fabRefreshScanning.setOnClickListener {
+            DeviceManager.refresh()
+        }
+
+        //Set icon accordingly
+        if(DeviceManager.isScanning){
+            binding.fabStartStopScanning.setIcon(R.drawable.ic_start)
+        }
+        else{
+            binding.fabStartStopScanning.setIcon(R.drawable.ic_stop)
+        }
+
+        binding.fabStartStopScanning.setOnClickListener{
+            if(DeviceManager.isScanning){
+                binding.fabStartStopScanning.setIcon(R.drawable.ic_start)
+                DeviceManager.stopScanning()
+            }
+            else{
+                binding.fabStartStopScanning.setIcon(R.drawable.ic_stop)
+                DeviceManager.startScanning()
+            }
+        }
+
         discoverViewModel.filteredDevices.observe(viewLifecycleOwner, Observer{
             adapter?.updateDevices(it)
             discovered_devices_number.text = "${it.size} Devices"

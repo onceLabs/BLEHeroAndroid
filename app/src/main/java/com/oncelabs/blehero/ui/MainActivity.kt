@@ -29,16 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
-        navView.setBackgroundColor(ContextCompat.getColor(this,
-            R.color.colorPrimary
-        ))
-        navView.itemTextAppearanceActive =
-            R.style.navBarTextActive
-        navView.itemTextAppearanceInactive =
-            R.style.navBarTextInactive
-        navView.itemIconSize = 70
-        navView.itemIconTintList = ColorStateList.valueOf(Color.WHITE)
-        navView.elevation = 3f
 
         nav_view.setOnNavigationItemSelectedListener {
             when(it.itemId) {

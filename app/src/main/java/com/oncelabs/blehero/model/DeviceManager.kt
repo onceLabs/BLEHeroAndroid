@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 
 object DeviceManager{
 
+    var isScanning = false
+
     private var obCentralManager: OBCentralManager? = null
 
     private val _discoveredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
@@ -59,12 +61,21 @@ object DeviceManager{
         }
     }
 
-    private fun startScanning(){
-        //val obScanOptions = OBScanOptions(services = arrayOf(ParcelUuid(LOCK_UUID_CONTROL_SERVICE)))
-        obCentralManager?.startScanning()
+    fun refresh(){
+        stopScanning()
+//        obCentralManager?.leDeviceMap.clear()
+//        _discoveredDevices.value = listOf()
+        startScanning()
     }
 
-    private fun stopScanning(){
+    fun startScanning(){
+        //val obScanOptions = OBScanOptions(services = arrayOf(ParcelUuid(LOCK_UUID_CONTROL_SERVICE)))
+        obCentralManager?.startScanning()
+        isScanning = true
+    }
+
+    fun stopScanning(){
         obCentralManager?.stopScanning()
+        isScanning = false
     }
 }
