@@ -40,6 +40,8 @@ object AppSettingsManager{
                 }
             }
         }
+
+        notifyAppSettingsChanged()
     }
 
     fun removeIgnoredDevice(macAddress: String){
@@ -54,6 +56,8 @@ object AppSettingsManager{
             settings.ignoredDevices.remove(savedDeviceToRemove)
             saveAppSettings(settings)
         }
+
+        notifyAppSettingsChanged()
     }
 
     fun isDeviceFavorite(macAddress: String) : Boolean{
@@ -78,6 +82,8 @@ object AppSettingsManager{
                 }
             }
         }
+
+        notifyAppSettingsChanged()
     }
 
     fun removeFavoriteDevice(macAddress: String){
@@ -92,8 +98,14 @@ object AppSettingsManager{
             settings.favoriteDevices.remove(savedDeviceToRemove)
             saveAppSettings(settings)
         }
+
+        notifyAppSettingsChanged()
     }
 
+    fun notifyAppSettingsChanged(){
+        //Notify change
+        this.appSettings.value = this.appSettings.value
+    }
 
 
     fun clearAppSettings(){

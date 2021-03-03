@@ -1,18 +1,22 @@
 package com.oncelabs.blehero.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.play.core.splitinstall.f
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.FragmentSettingsBinding
 import com.oncelabs.blehero.model.AppSettingsManager
 import com.oncelabs.blehero.ui.adapters.holders.SavedDeviceType
 import com.oncelabs.blehero.ui.viewmodels.SettingsViewModel
+import java.net.URL
 
 
 class SettingsFragment : Fragment() {
@@ -41,8 +45,16 @@ class SettingsFragment : Fragment() {
 
         setBindings()
 
-        updateUi()
+        bindListeners()
+
+//        updateUi()
         return binding.root
+    }
+
+    private fun bindListeners(){
+        AppSettingsManager.appSettings.observe(viewLifecycleOwner, Observer {
+            updateUi()
+        })
     }
 
     @SuppressLint("SetTextI18n")
@@ -66,9 +78,35 @@ class SettingsFragment : Fragment() {
         binding.notificationIndicationEventsSwitch.isChecked = appSettings.logNotificationIndicationEvents
         binding.gattDiscoveryEventsSwitch.isChecked = appSettings.logGattDiscoveryEvents
         binding.rssiUpdatesSwitch.isChecked = appSettings.logRssiUpdates
+
+        try {
+            val pInfo = context?.packageManager?.getPackageInfo(requireContext().packageName, 0)
+            val version = pInfo?.versionName ?: ""
+            binding.appVersionLabel.text = version
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
-    fun setBindings(){
+    private fun setBindings(){
+
+        binding.helpButton.setOnClickListener {
+            startActivity(Intent(context, HelpActivity::class.java))
+        }
+
+        binding.privacyPolicyButton.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://www.oncelabs.com/privacy_policy.html")))
+        }
+
+        binding.sendEmailButton.setOnClickListener {
+            val email = "support@oncelabs.com?subject=BLE%20Hero"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("mailto:${email}")))
+        }
+
+        binding.reportIssueButton.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/onceLabs/iOS-BLE-Hero/issues/new")))
+        }
+
 
         binding.favoritesButton.setOnClickListener {
             if(AppSettingsManager.appSettings.value?.favoriteDevices?.isNotEmpty() == true){

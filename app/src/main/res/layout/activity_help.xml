@@ -4,9 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable
-            name="viewModel"
-            type="com.oncelabs.blehero.ui.viewmodels.SettingsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,8 +11,8 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark">
 
-        <LinearLayout
-            android:id="@+id/settings_fragment_header"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/help_fragment_header"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/colorPrimary"
@@ -26,13 +23,30 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/settings_page_title"
+                android:id="@+id/help_page_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textSize="18sp" />
+                android:text="Help"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -40,120 +54,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/settings_fragment_header">
+            app:layout_constraintTop_toBottomOf="@+id/help_fragment_header">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="24dp"
-                android:paddingBottom="24dp"
-                android:showDividers="middle"
                 android:divider="@color/colorAccent"
-                android:dividerPadding="2dp">
+                android:dividerPadding="2dp"
+                android:orientation="vertical"
+                android:paddingTop="0dp"
+                android:paddingBottom="24dp"
+                android:showDividers="middle">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:orientation="vertical">
-
-                    <com.oncelabs.blehero.ui.widgets.OLTableView
-                        android:id="@+id/top_table"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/settings_table_background"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/help_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:gravity="right|center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp">
-
-                            <TextView
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="100"
-                                android:text="Help" />
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_weight="1"
-                                android:alpha="0.5"
-                                android:scaleX="-1"
-                                app:srcCompat="@drawable/ic_back" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/send_email_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:gravity="right|center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp">
-
-                            <TextView
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="100"
-                                android:text="Send us an email" />
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_weight="1"
-                                android:alpha="0.5"
-                                android:scaleX="-1"
-                                app:srcCompat="@drawable/ic_back" />
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/report_issue_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:gravity="right|center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="16dp"
-                            android:paddingBottom="8dp">
-
-                            <TextView
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="100"
-                                android:text="Report an issue" />
-
-                            <TextView
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="8dp"
-                                android:alpha="0.5"
-                                android:text="Github/Issues" />
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:layout_weight="1"
-                                android:alpha="0.5"
-                                android:scaleX="-1"
-                                app:srcCompat="@drawable/ic_back" />
-
-                        </LinearLayout>
-
-                    </com.oncelabs.blehero.ui.widgets.OLTableView>
 
                     <TextView
                         android:id="@+id/scanning_title"
@@ -170,37 +87,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/settings_table_background"
                         android:orientation="vertical">
 
-
                         <LinearLayout
-                            android:id="@+id/data_timeout_button"
+                            android:id="@+id/scanning_overview"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="right|center_vertical"
                             android:paddingLeft="16dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="16dp"
-                            android:paddingBottom="8dp">
+                            android:paddingRight="16dp">
 
                             <TextView
                                 style="@style/settingsTableContent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="100"
-                                android:text="Data timeout" />
-
-                            <TextView
-                                android:id="@+id/data_timeout_label"
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="8dp"
-                                android:alpha="0.5"
-                                android:text="1 minute" />
+                                android:text="Overview" />
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -211,16 +114,85 @@
                                 app:srcCompat="@drawable/ic_back" />
                         </LinearLayout>
 
-
                         <LinearLayout
-                            android:id="@+id/favorites_button"
+                            android:id="@+id/search_function"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="right|center_vertical"
                             android:paddingLeft="16dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="16dp"
-                            android:paddingBottom="8dp">
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Search Function" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/filtering"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Filtering" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/sorting"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Sorting" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/favorites"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
 
                             <TextView
                                 style="@style/settingsTableContent"
@@ -229,15 +201,6 @@
                                 android:layout_weight="100"
                                 android:text="Favorites" />
 
-                            <TextView
-                                android:id="@+id/favorited_devices_label"
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="8dp"
-                                android:alpha="0.5"
-                                android:text="0 devices" />
-
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
@@ -245,34 +208,22 @@
                                 android:alpha="0.5"
                                 android:scaleX="-1"
                                 app:srcCompat="@drawable/ic_back" />
-
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/ignored_devices_button"
+                            android:id="@+id/filter_all_others"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="right|center_vertical"
                             android:paddingLeft="16dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="16dp"
-                            android:paddingBottom="8dp">
+                            android:paddingRight="16dp">
 
                             <TextView
                                 style="@style/settingsTableContent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="100"
-                                android:text="Ignored devices" />
-
-                            <TextView
-                                android:id="@+id/ignored_devices_label"
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="8dp"
-                                android:alpha="0.5"
-                                android:text="0 devices" />
+                                android:text="Filter All Others" />
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -281,9 +232,194 @@
                                 android:alpha="0.5"
                                 android:scaleX="-1"
                                 app:srcCompat="@drawable/ic_back" />
-
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/ignoring_devices"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Ignoring Devices" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/locator_mode"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Locator Mode" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <TextView
+                        android:id="@+id/gatt_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:text="GATT"
+                        android:textAppearance="@style/settingsTableTitle"
+                        android:textColor="@null" />
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/gatt_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/gatt_profile"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="GATT Profile" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/reading"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Reading" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/writing"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Writing" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/notifications_indications"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Notifications/Indications" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/device_firmware_upgrade"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Device Firmware Upgrade" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
                     </com.oncelabs.blehero.ui.widgets.OLTableView>
 
                     <TextView
@@ -301,146 +437,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
-                        android:background="@drawable/settings_table_background"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/advertisement_data_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="Advertisement data" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/connection_events_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="Connection events" />
-
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/disconnection_events_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="Disconnection events" />
-
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/read_write_events_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="Read/write events" />
-
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/notification_indication_events_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="Notification/indication events" />
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/gatt_discovery_events_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="GATT Discovery events" />
-
-
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/rssi_updates_switch"
-                            style="@style/settingsTableContent"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginLeft="16dp"
-                            android:layout_marginRight="8dp"
-                            android:text="RSSI updates" />
-                    </com.oncelabs.blehero.ui.widgets.OLTableView>
-
-                    <TextView
-                        android:id="@+id/theme_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="32dp"
-                        android:text="Theme"
-                        android:textAppearance="@style/settingsTableTitle"
-                        android:textColor="@null"/>
-
-                    <com.oncelabs.blehero.ui.widgets.OLTableView
-                        android:id="@+id/theme_table"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/settings_table_background"
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp">
-
-                            <LinearLayout
-                                android:id="@+id/light_theme_button"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="50"
-                                android:orientation="horizontal">
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/dark_theme_button"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="50"
-                                android:orientation="horizontal">
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </com.oncelabs.blehero.ui.widgets.OLTableView>
-
-                    <TextView
-                        android:id="@+id/about_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="32dp"
-                        android:layout_marginTop="32dp"
-                        android:text="About"
-                        android:textAppearance="@style/settingsTableTitle"
-                        android:textColor="@null"/>
-
-                    <com.oncelabs.blehero.ui.widgets.OLTableView
-                        android:id="@+id/about_table"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/settings_table_background"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/app_version_button"
+                            android:id="@+id/logging_overview"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="right|center_vertical"
@@ -452,32 +453,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="100"
-                                android:text="App Version" />
-
-                            <TextView
-                                android:id="@+id/app_version_label"
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:alpha="0.5"
-                                android:text="3.1.5" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/privacy_policy_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:gravity="right|center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp">
-
-                            <TextView
-                                style="@style/settingsTableContent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="100"
-                                android:text="Privacy Policy" />
+                                android:text="Overview" />
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -486,11 +462,29 @@
                                 android:alpha="0.5"
                                 android:scaleX="-1"
                                 app:srcCompat="@drawable/ic_back" />
-
                         </LinearLayout>
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <TextView
+                        android:id="@+id/settings_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:text="GATT"
+                        android:textAppearance="@style/settingsTableTitle"
+                        android:textColor="@null" />
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/settings_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/legal_button"
+                            android:id="@+id/settings_overview"
                             android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:gravity="right|center_vertical"
@@ -502,7 +496,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="100"
-                                android:text="Legal" />
+                                android:text="Overview" />
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -511,10 +505,9 @@
                                 android:alpha="0.5"
                                 android:scaleX="-1"
                                 app:srcCompat="@drawable/ic_back" />
-
                         </LinearLayout>
-
                     </com.oncelabs.blehero.ui.widgets.OLTableView>
+
 
                     <ImageView
                         android:id="@+id/oncelabs_logo"

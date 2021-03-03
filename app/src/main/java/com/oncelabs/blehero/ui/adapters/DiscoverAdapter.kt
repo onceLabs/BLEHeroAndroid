@@ -56,14 +56,34 @@ class DiscoverAdapter() : RecyclerView.Adapter<DiscoverViewHolder>(){
     }
 
     fun updateDevices(devicesList: List<OBPeripheral<out OBGatt>>){
-        if(devices != devicesList){
-            devices.clear()
-            devicesList.forEach{
-                devices.add(it)
-            }
+        val addedDevices: MutableList<OBPeripheral<out OBGatt>> = mutableListOf()
+        val removedDevices: MutableList<OBPeripheral<out OBGatt>> = mutableListOf()
 
-            println("Data set changed")
-            notifyDataSetChanged()
+        //Check for devices that have been removed
+        devices.forEach {
+            if(!devicesList.contains(it)){
+                removedDevices.add(it)
+            }
+        }
+
+        //Check for devices that have been added
+        devicesList.forEach {
+            if(!devices.contains(it)){
+                addedDevices.add(it)
+            }
+        }
+
+        //Remove the devices
+        removedDevices.forEach {
+            val index = devices.indexOf(it)
+            devices.remove(it)
+            notifyItemRemoved(index)
+        }
+
+        //Add the devices
+        addedDevices.forEach {
+            devices.add(it)
+            notifyItemInserted(devices.lastIndex)
         }
     }
 }

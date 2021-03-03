@@ -19,6 +19,7 @@
         </activity>
 
         <activity android:name=".ui.GattProfileActivity"/>
+        <activity android:name=".ui.HelpActivity"/>
     </application>
 
 </manifest>

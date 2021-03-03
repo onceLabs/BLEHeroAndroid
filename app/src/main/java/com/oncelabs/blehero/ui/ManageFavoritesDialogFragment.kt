@@ -86,7 +86,8 @@ class ManageFavoritesDialogFragment : DialogFragment() {
 
 
             AppSettingsManager.appSettings.observe(viewLifecycleOwner, Observer { appSettings ->
-                val devices: List<SavedDevice> = when(savedDeviceType){
+                val devices: List<SavedDevice> =
+                when(savedDeviceType){
                     SavedDeviceType.FAVORITE ->{
                         appSettings.favoriteDevices
                     }
@@ -99,6 +100,10 @@ class ManageFavoritesDialogFragment : DialogFragment() {
                 }
 
                 adapter?.updateDevices(devices, savedDeviceType!!)
+
+                if(devices.isEmpty()){
+                    dismiss()
+                }
             })
 
         }

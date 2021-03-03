@@ -51,4 +51,8 @@ class MainActivity : AppCompatActivity() {
         DeviceManager.init(this)
 
     }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+    }
 }

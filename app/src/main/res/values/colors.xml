@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#1C1C1E</color>
     <color name="colorAccent">#00B8F7</color>
 
+    <color name="buttonHighlighted">#22FFFFFF</color>
+
     <color name="foregroundDark">#30000000</color>
     <color name="foregroundLight">#20ffffff</color>
 
