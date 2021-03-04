@@ -14,14 +14,16 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ActivityGattProfileBinding
+import com.oncelabs.blehero.interfaces.GattInterface
 import com.oncelabs.blehero.model.DeviceManager
 import com.oncelabs.blehero.ui.adapters.DiscoverAdapter
 import com.oncelabs.blehero.ui.adapters.GattServicesAdapter
+import com.oncelabs.onceble.core.peripheral.gattClient.OBCharacteristic
 import com.oncelabs.onceble.core.peripheral.gattClient.OBService
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class GattProfileActivity : AppCompatActivity() {
+class GattProfileActivity : AppCompatActivity(), GattInterface {
 
     lateinit var binding: ActivityGattProfileBinding
     private var adapter : GattServicesAdapter? = null
@@ -52,7 +54,7 @@ class GattProfileActivity : AppCompatActivity() {
 
     private fun initList() {
         if(adapter == null) {
-            adapter = GattServicesAdapter()
+            adapter = GattServicesAdapter(this)
             binding.servicesList.layoutManager = LinearLayoutManager(this)
             binding.servicesList.adapter = adapter
 
@@ -71,5 +73,9 @@ class GattProfileActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         DeviceManager.selectedDeviceForGatt = null
+    }
+
+    override fun onCharacteristicSelected(characteristic: OBCharacteristic) {
+
     }
 }

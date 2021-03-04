@@ -104,6 +104,7 @@ class DiscoverFragment : Fragment(){
         }
 
         binding.filterSortButton.setOnClickListener {
+//            showCharacteristicViewActivity()
             showFilterSortDialog()
 //            showGattActivity()
         }
@@ -140,6 +141,11 @@ class DiscoverFragment : Fragment(){
 
     private fun showGattActivity(){
         val intent = Intent(context, GattProfileActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun showCharacteristicViewActivity(){
+        val intent = Intent(context, CharacteristicViewActivity::class.java)
         startActivity(intent)
     }
 }

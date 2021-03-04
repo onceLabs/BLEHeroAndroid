@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.oncelabs.onceble.core.central.OBCentralManager
 import com.oncelabs.onceble.core.central.OBEvent
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
+import com.oncelabs.onceble.core.peripheral.gattClient.OBCharacteristic
 import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -24,6 +25,7 @@ object DeviceManager{
     private var discoveredDevicesMap: MutableMap<String, OBPeripheral<out OBGatt>> = mutableMapOf()
 
     var selectedDeviceForGatt: OBPeripheral<out OBGatt>? = null
+    var selectedCharacteristic: OBCharacteristic? = null
 
     fun init(context: Context){
         obCentralManager = OBCentralManager(loggingEnabled = false, context = context)

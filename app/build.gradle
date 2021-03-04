@@ -66,10 +66,12 @@ dependencies {
     // Jetpack Compose Integration
     implementation "androidx.navigation:navigation-compose:1.0.0-alpha02"
 
-    implementation 'com.github.onceLabs:onceBLEAndroid:v1.0.0-alpha'
+//    implementation 'com.github.onceLabs:onceBLEAndroid:v1.0.0-alpha'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.github.toanvc:floatingactionmenu:0.8.9'
+
+    implementation project(":onceBLE")
 }

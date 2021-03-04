@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ListDiscoveredDeviceBinding
 import com.oncelabs.blehero.databinding.ServiceListItemBinding
+import com.oncelabs.blehero.interfaces.GattInterface
 import com.oncelabs.blehero.ui.adapters.holders.DiscoverViewHolder
 import com.oncelabs.blehero.ui.adapters.holders.ServicesViewHolder
 import com.oncelabs.onceble.core.peripheral.OBPeripheral
@@ -15,9 +16,9 @@ import com.oncelabs.onceble.core.peripheral.gattClient.OBService
 import java.util.*
 
 
-class GattServicesAdapter() : RecyclerView.Adapter<ServicesViewHolder>(){
+class GattServicesAdapter(private val gattInterface: GattInterface) : RecyclerView.Adapter<ServicesViewHolder>(){
 
-    private val services: MutableList<OBService> = mutableListOf()
+    private val services: MutableList<Pair<OBService, Boolean>> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicesViewHolder {
 
@@ -31,7 +32,11 @@ class GattServicesAdapter() : RecyclerView.Adapter<ServicesViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: ServicesViewHolder, position: Int) {
-        holder.bind(services[position])
+        holder.bind(services[position].first, services[position].second, gattInterface)
+        holder.onItemChanged {
+            services[position] = Pair(services[position].first, it)
+            notifyItemChanged(position)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -42,7 +47,7 @@ class GattServicesAdapter() : RecyclerView.Adapter<ServicesViewHolder>(){
         if(services != serviceList){
             services.clear()
             serviceList.forEach{
-                services.add(it)
+                services.add(Pair(it, false))
             }
 
             println("Services changed")
