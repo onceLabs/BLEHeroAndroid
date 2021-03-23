@@ -1,32 +1,15 @@
 package com.oncelabs.blehero.ui
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothGattService
-import android.bluetooth.BluetoothHeadset
-import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.oncelabs.blehero.R
 import com.oncelabs.blehero.databinding.ActivityCharacteristicViewBinding
-import com.oncelabs.blehero.databinding.ActivityGattProfileBinding
-import com.oncelabs.blehero.databinding.ActivityHelpBinding
+import com.oncelabs.blehero.model.DataParser
 import com.oncelabs.blehero.model.DeviceManager
-import com.oncelabs.blehero.ui.adapters.DiscoverAdapter
-import com.oncelabs.blehero.ui.adapters.GattServicesAdapter
 import com.oncelabs.onceble.core.peripheral.gattClient.OBCharacteristic
-import com.oncelabs.onceble.core.peripheral.gattClient.OBService
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class CharacteristicViewActivity : AppCompatActivity() {
@@ -37,6 +20,9 @@ class CharacteristicViewActivity : AppCompatActivity() {
     private lateinit var lifecycleOwner: LifecycleOwner
 
     private var indicationsEnabled = false
+
+    private var readDataFormat: DataType? = null
+    private var writeDataFormat: DataType? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +106,14 @@ class CharacteristicViewActivity : AppCompatActivity() {
         }
 
         obCharacteristic?.liveValue?.observable?.observe(lifecycleOwner, Observer {
-            binding.readField.setText(byteArrayToString(it))
+            binding.readField.setText(
+                when(readDataFormat){
+                    DataType.HEX -> {DataParser.byteArrayToHexString(it)}
+                    DataType.ASCII -> {DataParser.byteArrayToHexString(it)}
+                    DataType.DECIMAL -> {DataParser.byteArrayToHexString(it)}
+                    null->{""}
+                }
+            )
         })
     }
 
@@ -131,59 +124,64 @@ class CharacteristicViewActivity : AppCompatActivity() {
     }
 
     private fun writeData(){
-//        obCharacteristic?.asyncWrite()
+        var byteArray: ByteArray = byteArrayOf()
+
+        when(writeDataFormat){
+            DataType.HEX -> {
+                byteArray = DataParser.hexStringToByteArray(binding.writeField.text.toString())
+            }
+            DataType.ASCII -> {
+                byteArray = DataParser.asciiStringToByteArray(binding.writeField.text.toString())
+            }
+            DataType.DECIMAL -> {
+//                byteArray = DataParser.hexStringToByteArray(binding.writeField.text.toString())
+            }
+        }
+        obCharacteristic?.asyncWrite(byteArray, withResponse = true){
+
+        }
     }
 
     private fun setReadChipChoice(dataType: DataType){
+        readDataFormat = dataType
+
         binding.chipHex.isChecked = false
         binding.chipAscii.isChecked = false
         binding.chipDecimal.isChecked = false
 
         when(dataType){
-            DataType.HEX->{
+            DataType.HEX -> {
                 binding.chipHex.isChecked = true
             }
-            DataType.ASCII->{
+            DataType.ASCII -> {
                 binding.chipAscii.isChecked = true
             }
-            DataType.DECIMAL->{
+            DataType.DECIMAL -> {
                 binding.chipDecimal.isChecked = true
             }
         }
     }
 
     private fun setWriteChipChoice(dataType: DataType){
+        writeDataFormat = dataType
+
         binding.writeChipHex.isChecked = false
         binding.writeChipAscii.isChecked = false
         binding.writeChipDecimal.isChecked = false
 
         when(dataType){
-            DataType.HEX->{
+            DataType.HEX -> {
                 binding.writeChipHex.isChecked = true
             }
-            DataType.ASCII->{
+            DataType.ASCII -> {
                 binding.writeChipAscii.isChecked = true
             }
-            DataType.DECIMAL->{
+            DataType.DECIMAL -> {
                 binding.writeChipDecimal.isChecked = true
             }
         }
     }
 
-    private fun byteArrayToString(byteArray: ByteArray): String{
-        var string = ""
-
-        byteArray?.forEach {
-            val byteString = String.format("%02X", it)
-            string = "$string$byteString"
-        }
-
-        return if(string.isBlank()){
-            ""
-        }else {
-            string
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
