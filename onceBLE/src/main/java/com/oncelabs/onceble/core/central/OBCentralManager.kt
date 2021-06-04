@@ -135,8 +135,6 @@ class OBCentralManager(loggingEnabled: Boolean, mockMode: Boolean = false, conte
 
             scanState = ScanState.Scanning
 
-            val testUuid = ParcelUuid(UUID.fromString("0000cbbb-0000-1000-8000-00805f9b34fb"))
-
             // Not used for now
             val scanFilter =
                 ScanFilter
@@ -185,7 +183,7 @@ class OBCentralManager(loggingEnabled: Boolean, mockMode: Boolean = false, conte
                     var peripheral: OBPeripheral<out OBGatt>? = null
                     for (type in registeredPeripheralTypes) {
                         if (type.isTypeMatchFor(obAdvertisementData, result)!!){
-                            peripheral = type.newInstance(obAdvertisementData, result)
+                            peripheral = type.newInstance(obAdvertisementData, result, leDeviceMap)
                         }
                     }
 
@@ -202,7 +200,8 @@ class OBCentralManager(loggingEnabled: Boolean, mockMode: Boolean = false, conte
                         leDeviceMap[it] = OBPeripheral(
                             device,
                             obAdvertisementData,
-                            context)
+                            context,
+                            leDeviceMap)
 
                         leDeviceMap[it]?.let { _obPeripheralInstance ->
                             (handlers[OBEvent.raw(OBEvent.DiscoveredPeripheral())] as ((OBPeripheral<out OBGatt>, OBAdvertisementData) -> Unit))

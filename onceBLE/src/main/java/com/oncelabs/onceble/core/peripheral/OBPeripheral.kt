@@ -21,7 +21,14 @@ typealias CharacteristicValueHandler = (BluetoothGattCharacteristic) -> Unit
 typealias ConnectionHandler = (ConnectionState) -> Unit
 
 
-open class OBPeripheral<G: OBGatt>(device: BluetoothDevice? = null, scanResult: OBAdvertisementData? = null, context: Context): BluetoothGattCallback(), OBGattServer<G>{
+open class OBPeripheral<G: OBGatt>(
+    device: BluetoothDevice? = null,
+    scanResult: OBAdvertisementData? = null,
+    context: Context,
+    private var leDeviceMap: MutableMap<String, OBPeripheral<out OBGatt>>?
+): BluetoothGattCallback(), OBGattServer<G>{
+
+//    private var leDeviceMap: MutableMap<String, OBPeripheral<out OBGatt>>? = null
 
     override var obGatt: G? = null
         get(){
@@ -38,7 +45,8 @@ open class OBPeripheral<G: OBGatt>(device: BluetoothDevice? = null, scanResult: 
         return  null
     }
 
-    override fun newInstance(advData: OBAdvertisementData, peripheral: ScanResult): OBPeripheral<G>? {
+    override fun newInstance(advData: OBAdvertisementData, peripheral: ScanResult, leDeviceMap: MutableMap<String, OBPeripheral<out OBGatt>>): OBPeripheral<G>? {
+        this.leDeviceMap = leDeviceMap
         return null
     }
 
@@ -181,7 +189,7 @@ open class OBPeripheral<G: OBGatt>(device: BluetoothDevice? = null, scanResult: 
     //private var waitingForDisconnect = false
     fun disconnect(){
         println("Try to disconnect at peripheral")
-        gatt?.close()
+//        gatt?.close()
         gatt?.disconnect()
         /*  Android doesn't disconnect reliably */
         //waitingForDisconnect = true
@@ -215,6 +223,8 @@ open class OBPeripheral<G: OBGatt>(device: BluetoothDevice? = null, scanResult: 
             BluetoothProfile.STATE_DISCONNECTED -> {
                 connectionState = ConnectionState.disconnected
                 connectionHandler?.invoke(ConnectionState.disconnected)
+                leDeviceMap?.remove(this.latestAdvData.value?.address)
+                gatt?.close()
                 println("GATT disconnected")
             }
 
