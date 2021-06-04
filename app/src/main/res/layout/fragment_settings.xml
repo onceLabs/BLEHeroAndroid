@@ -11,25 +11,528 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
 
+        <LinearLayout
+            android:id="@+id/settings_fragment_header"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/settings_action_bar"
+            <TextView
+                android:id="@+id/settings_page_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_settings"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/settings_fragment_header">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp"
+                android:showDividers="middle"
+                android:divider="@color/colorAccent"
+                android:dividerPadding="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:orientation="vertical">
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/top_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/settings_table_background"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/help_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Help" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/send_email_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Send us an email" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/report_issue_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Report an issue" />
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:alpha="0.5"
+                                android:text="Github/Issues" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <TextView
+                        android:id="@+id/scanning_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Scanning"
+                        android:textAppearance="@style/settingsTableTitle"
+                        android:textColor="@null" />
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/scanning_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/settings_table_background"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:id="@+id/data_timeout_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Data timeout" />
+
+                            <TextView
+                                android:id="@+id/data_timeout_label"
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:alpha="0.5"
+                                android:text="1 minute" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/favorites_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Favorites" />
+
+                            <TextView
+                                android:id="@+id/favorited_devices_label"
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:alpha="0.5"
+                                android:text="0 devices" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ignored_devices_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="16dp"
+                            android:paddingBottom="8dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Ignored devices" />
+
+                            <TextView
+                                android:id="@+id/ignored_devices_label"
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:alpha="0.5"
+                                android:text="0 devices" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <TextView
+                        android:id="@+id/logging_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Logging"
+                        android:textAppearance="@style/settingsTableTitle"
+                        android:textColor="@null" />
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/logging_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/settings_table_background"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/advertisement_data_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="Advertisement data" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/connection_events_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="Connection events" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/disconnection_events_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="Disconnection events" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/read_write_events_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="Read/write events" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/notification_indication_events_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="Notification/indication events" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/gatt_discovery_events_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="GATT Discovery events" />
+
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/rssi_updates_switch"
+                            style="@style/settingsTableContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginRight="8dp"
+                            android:text="RSSI updates" />
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <TextView
+                        android:id="@+id/theme_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:text="Theme"
+                        android:textAppearance="@style/settingsTableTitle"
+                        android:textColor="@null"/>
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/theme_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/settings_table_background"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                            <LinearLayout
+                                android:id="@+id/light_theme_button"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="50"
+                                android:orientation="horizontal">
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/dark_theme_button"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="50"
+                                android:orientation="horizontal">
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <TextView
+                        android:id="@+id/about_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="32dp"
+                        android:text="About"
+                        android:textAppearance="@style/settingsTableTitle"
+                        android:textColor="@null"/>
+
+                    <com.oncelabs.blehero.ui.widgets.OLTableView
+                        android:id="@+id/about_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/settings_table_background"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/app_version_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="App Version" />
+
+                            <TextView
+                                android:id="@+id/app_version_label"
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.5"
+                                android:text="3.1.5" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/privacy_policy_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Privacy Policy" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/legal_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp">
+
+                            <TextView
+                                style="@style/settingsTableContent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="100"
+                                android:text="Legal" />
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:layout_weight="1"
+                                android:alpha="0.5"
+                                android:scaleX="-1"
+                                app:srcCompat="@drawable/ic_back" />
+
+                        </LinearLayout>
+
+                    </com.oncelabs.blehero.ui.widgets.OLTableView>
+
+                    <ImageView
+                        android:id="@+id/oncelabs_logo"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:srcCompat="@drawable/oncelabs_logo" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Copyright © onceLabs LLC 2021"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

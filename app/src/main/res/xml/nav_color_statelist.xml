@@ -3,4 +3,7 @@
     <item
         android:color="#00B8F7"
         android:state_selected="true" />
+    <item
+        android:color="#FF0000"
+        android:state_selected="false" />
 </selector>

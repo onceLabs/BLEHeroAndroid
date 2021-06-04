@@ -11,6 +11,16 @@
 <!--        <item name="android:background">@color/colorPrimaryDark</item>-->
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="BottomNavigationStyle">
+        <item name="android:background">@color/colorPrimary</item>
+<!--        <item name="itemBackground">@drawable/navigation_bar_item_bg</item>-->
+        <item name="itemIconTint">@color/bottom_nav_item_foreground</item>
+        <item name="itemTextColor">@color/bottom_nav_item_foreground</item>
+<!--        <item name="paddingStart">@dimen/bottom_navigation_padding</item>-->
+<!--        <item name="paddingEnd">@dimen/bottom_navigation_padding</item>-->
     </style>
 
     <style name="navBarTextActive">
@@ -21,6 +31,64 @@
     <style name="navBarTextInactive">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_dialog_background</item>
+    </style>
+
+    <style name="settingsTableTitle">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="settingsTableContent">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="actionButtonStyleFilled" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="actionButtonStyleOutlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+<!--        <item name="android:textStyle">normal</item>-->
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="strokeColor">@color/colorAccent</item>
+<!--        <item name="android:strokeColor">@color/colorAccent</item>-->
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="chipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/bg_chip_state_list</item>
+        <item name="android:textColor">@color/fg_chip_state_list</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:checkable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="editTextWhite">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:background">@drawable/edit_text_background_white</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="singleLine">true</item>
     </style>
 
 </resources>

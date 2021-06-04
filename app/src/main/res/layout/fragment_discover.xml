@@ -88,7 +88,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif"
                     android:text="Filter/Sort"
+                    android:letterSpacing="0"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
@@ -101,7 +103,7 @@
                 android:id="@+id/device_search_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
+                android:layout_marginBottom="12dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +115,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/edit_text_background"
                     android:ems="10"
                     android:hint="Search"
@@ -131,9 +133,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:text="Cancel"
+                    android:textAllCaps="false"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -149,6 +152,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/discover_action_bar" />
+
+        <toan.android.floatingactionmenu.FloatingActionsMenu
+            android:id="@+id/floating_action_button"
+            app:fab_addButtonSize="normal"
+            app:fab_menuIcon="@drawable/ic_launch"
+            app:fab_addButtonColorNormal="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <toan.android.floatingactionmenu.FloatingActionButton
+                android:id="@+id/fab_filter_devices"
+                app:fab_title="Filter"
+                app:fab_icon="@drawable/ic_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <toan.android.floatingactionmenu.FloatingActionButton
+                android:id="@+id/fab_refresh_scanning"
+                app:fab_title="Refresh"
+                app:fab_icon="@drawable/ic_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <toan.android.floatingactionmenu.FloatingActionButton
+                android:id="@+id/fab_start_stop_scanning"
+                app:fab_title="Start/Stop Scanning"
+                app:fab_icon="@drawable/ic_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </toan.android.floatingactionmenu.FloatingActionsMenu>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
