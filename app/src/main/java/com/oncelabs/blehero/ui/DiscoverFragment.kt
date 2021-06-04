@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.oncelabs.blehero.databinding.FragmentDiscoverBinding
 import com.oncelabs.blehero.ui.viewmodels.DiscoverViewModel
 import com.oncelabs.blehero.R
+import com.oncelabs.blehero.databinding.FragmentDiscoverBinding
 import com.oncelabs.blehero.model.Device
 import com.oncelabs.blehero.model.DeviceManager
 import com.oncelabs.blehero.model.DiscoverFilter
