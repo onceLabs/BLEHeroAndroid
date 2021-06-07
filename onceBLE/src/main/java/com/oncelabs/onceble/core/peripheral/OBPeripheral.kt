@@ -223,7 +223,7 @@ open class OBPeripheral<G: OBGatt>(
             BluetoothProfile.STATE_DISCONNECTED -> {
                 connectionState = ConnectionState.disconnected
                 connectionHandler?.invoke(ConnectionState.disconnected)
-                leDeviceMap?.remove(this.latestAdvData.value?.address)
+                leDeviceMap?.remove(this.id)
                 gatt?.close()
                 println("GATT disconnected")
             }
