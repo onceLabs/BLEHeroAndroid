@@ -7,7 +7,6 @@ import com.oncelabs.onceble.core.peripheral.OBPeripheral
 import com.oncelabs.onceble.core.peripheral.gattClient.OBGatt
 import kotlinx.android.synthetic.main.fragment_discover.*
 
-
 class DiscoverViewModel : ViewModel(){
 //    var DiscoverFilter = DiscoverFilter()
     val discoveredDevices = MutableLiveData<List<OBPeripheral<out OBGatt>>>()
